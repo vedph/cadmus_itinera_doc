@@ -28,4 +28,4 @@ In this editor, you can choose between 1 or 2 points in the timeline (use the `A
 
 Once finished with visual editing, click the round check button to accept changes and close the visual editor; or just the red `X` to discard them. When changes are accepted, the text representing the datation is automatically updated.
 
-Conversely, Whenever you type in the top text box your changes are immediately reflected in the visual editor, when it is open.
+Conversely, whenever you type in the top text box your changes are immediately reflected in the visual editor, when it is open.

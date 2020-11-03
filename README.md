@@ -20,3 +20,4 @@ This repository contains essential documentation about the Cadmus Itinera projec
 ### Epistolography
 
 - [attachments](./help/attachments-part.md)
+- [chronotopics](./help/chronotopics-part.md)
