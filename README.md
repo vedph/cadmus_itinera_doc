@@ -21,3 +21,4 @@ This repository contains essential documentation about the Cadmus Itinera projec
 
 - [attachments](./help/attachments-part.md)
 - [chronotopics](./help/chronotopics-part.md)
+- [cited persons](./help/cited-persons-part.md)
