@@ -18,7 +18,7 @@ The person's name is a structured name, [edited as usual](./person-name.md).
 
 ## Identifications
 
-The identifications are any number of proposed identifications for the cited person. Here too the editing is that used for the so-called "decorated IDs", i.e. arbitrary IDs with some metadata attached.
+The identifications are any number of proposed identifications for the cited person. Here too the editing is that used for the so-called [decorated IDs](./decorated-ids.md), i.e. arbitrary IDs with some metadata attached.
 
 To save space and let users focus on persons, the identifications are collapsed into an `identifications` header. The number in it is the count of identifications present. Just click the header to toggle the section.
 
