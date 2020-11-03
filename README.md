@@ -12,3 +12,11 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [models](models.md)
 
 ## User Manual
+
+## General
+
+- [historical datation](./help/historical-date.md)
+
+### Epistolography
+
+- [attachments](./help/attachments-part.md)
