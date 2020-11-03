@@ -30,7 +30,7 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [cited persons](./help/cited-persons-part.md)
 - [correspondent's dedications](./help/corr-dedications-part.md)
 - [correspondent's exchanges](./help/corr-exchanges-part.md)
-- documentary references
+- [documentary references](./help/doc-references-part.md)
 - letter information
 - person events
 - person's hand
