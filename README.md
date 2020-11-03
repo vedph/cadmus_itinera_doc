@@ -20,7 +20,7 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [external IDs](./help/external-ids.md)
 - [documentary references](./help/doc-references.md)
 - [decorated IDs](./help/decorated-ids.md)
-- decorated counts
+- [decorated counts](./help/images/decorated-counts-sub.png)
 - dimension
 - size
 
