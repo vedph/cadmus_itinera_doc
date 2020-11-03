@@ -29,7 +29,7 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [chronotopics](./help/chronotopics-part.md)
 - [cited persons](./help/cited-persons-part.md)
 - [correspondent's dedications](./help/corr-dedications-part.md)
-- correspondent's exchanges
+- [correspondent's exchanges](./help/corr-exchanges-part.md)
 - documentary references
 - letter information
 - person events
