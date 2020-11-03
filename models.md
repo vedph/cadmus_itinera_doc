@@ -24,6 +24,7 @@ About 30 part types are variously assigned to those items.
 Some commonly reused (sub-part) models are listed here:
 
 - `DocReference`: a literary citation:
+
   - `tag` (`string`; thesaurus)
   - `author`\* (`string`; thesaurus of authors/works like that illustrated in the general purpose [quotations fragment](https://github.com/vedph/cadmus_core/wiki/Philology-Parts#quotations)
   - `work`\* (`string`; thesaurus as above)
@@ -31,6 +32,7 @@ Some commonly reused (sub-part) models are listed here:
   - `note` (`string`, 500)
 
 - `PersonName`: a personal name:
+
   - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
   - `tag` (`string`, optionally from thesaurus): optional tag used to group names, typically used when a person has several names.
   - `parts`\* (`PersonNamePart[]`):
@@ -38,6 +40,7 @@ Some commonly reused (sub-part) models are listed here:
     - `value`\* (`string`)
 
 - `CitedPerson`: a person cited in a literary source:
+
   - `name` (`PersonName`)
   - `ids` (`DecoratedId[]`)
 
@@ -48,17 +51,20 @@ Some commonly reused (sub-part) models are listed here:
   - `l` (`number`): line number
 
 - `DecoratedCount`:
+
   - `id`
   - `value`
   - `note`
 
 - `DecoratedId`:
+
   - `id`
   - `rank`: a numeric rank to sort identifications in their order of probability. For a single identification, just leave the rank value equal (to 0). Otherwise, use 1=highest probability, 2=lower than 1, and so on.
   - `tag`
   - `sources` (`DocReference[]`)
 
 - `Chronotope`:
+
   - `tag`\* (`string`)
   - `place`\* (`string`)
   - `date`\* (`HistoricalDate`)
@@ -66,6 +72,13 @@ Some commonly reused (sub-part) models are listed here:
   - `sources` (`DocReference[]`)
 
 Note that here and in other parts the _place just corresponds to a conventional name_ (e.g. `Napoli`). This is not a full-fledged geographic model, but just a name; including data like coordinates here would not be an option, because this would imply duplicating (i.e. re-entering and re-storing) them wherever the same name occurs. Rather, coordinates will be later automatically deduced from the name using a geolocation service like Google. We must thus ensure that the place name can be located without issues (eventually by enriching our geolocation request with restrictions, e.g. "in Italy" or the like).
+
+- `EpistAttachment`:
+
+  - `type`\* (`string`; thesaurus: manuscript, work)
+  - `name`\* (`string`; if work, use thesaurus of works): not specified if unindentified.
+  - `portion` (`string`): the specification of the portion of the attachment. For instance, if the attachment is a work, this specifies the work's location (e.g. Aen. 1.13-2.26).
+  - `note`: you can use this when the object is not identified to provide an informal description.
 
 Existing sub-models:
 
@@ -226,13 +239,9 @@ Exchanges from the reference author to the correspondent, or vice-versa.
   - `to`\* (`Chronotope`)
   - `participants` (`DecoratedId[]`):
     - `id` (`string`): the participant ID. This should refer to a person part.
-    - `tag` (`string`, thesaurus): the role of the participant (e.g. destinatario, latore...). 
+    - `tag` (`string`, thesaurus): the role of the participant (e.g. destinatario, latore...).
   - `sources` (`DocReference[]`)
-  - `attachments` (`EpistAttachment[]`):
-    - `type`\* (`string`; thesaurus: manuscript, work)
-    - `name`\* (`string`; if work, use thesaurus of works): not specified if unindentified.
-    - `portion` (`string`): the specification of the portion of the attachment. For instance, if the attachment is a work, this specifies the work's location (e.g. Aen. 1.13-2.26).
-    - `note`: you can use this when the object is not identified to provide an informal description.
+  - `attachments` (`EpistAttachment[]`)
 
 ### DocReferencesPart
 
