@@ -31,8 +31,8 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [correspondent's dedications](./help/corr-dedications-part.md)
 - [correspondent's exchanges](./help/corr-exchanges-part.md)
 - [documentary references](./help/doc-references-part.md)
-- letter information
-- person events
+- [letter information](./help/letter-info-part.md)
+- [person events](./help/person-events-part.md)
 - person's hand
 - person
 - poetic text information
