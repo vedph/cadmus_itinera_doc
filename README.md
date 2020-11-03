@@ -18,6 +18,11 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [historical datation](./help/historical-date.md)
 - [person name](./help/person-name.md)
 - [external IDs](./help/external-ids.md)
+- [documentary references](./help/doc-references.md)
+- decorated IDs
+- decorated counts
+- dimension
+- size
 
 ### Epistolography
 

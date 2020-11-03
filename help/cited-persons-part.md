@@ -1,6 +1,6 @@
 # Cited Persons Part
 
-This part contains a list of cited persons.
+This part contains a list of cited persons. Each person cited is rather a (structured) name; there can then be zero or more proposed identifications for him/her, with their documentary sources.
 
 ![cited persons](./images/cited-persons-part-01.png)
 
@@ -20,6 +20,10 @@ The person's name is a structured name, [edited as usual](./person-name.md).
 
 The identifications are any number of proposed identifications for the cited person. Here too the editing is that used for the so-called "decorated IDs", i.e. arbitrary IDs with some metadata attached.
 
+To save space and let users focus on persons, the identifications are collapsed into an `identifications` header. The number in it is the count of identifications present. Just click the header to toggle the section.
+
 ## Sources
 
-The sources are any number of documentary references, edited as usual.
+The sources are any number of documentary references, [edited as usual](./doc-references.md).
+
+As above, the sources are collapsed into a `sources` header. The number in it is the count of sources present. Just click the header to toggle the section.
