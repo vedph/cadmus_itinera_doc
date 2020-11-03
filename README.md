@@ -24,3 +24,30 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [attachments](./help/attachments-part.md)
 - [chronotopics](./help/chronotopics-part.md)
 - [cited persons](./help/cited-persons-part.md)
+- correspondent's dedications
+- correspondent's exchanges
+- documentary references
+- letter information
+- person events
+- person's hand
+- person
+- poetic text information
+
+### Codicology
+
+- binding
+- catchwords
+- composition
+- content's loci
+- contents
+- decorations
+- dimensions
+- hands
+- history
+- material description
+- numberings
+- place
+- poem ranges
+- quires
+- signatures
+- watermarks
