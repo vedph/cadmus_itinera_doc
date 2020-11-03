@@ -16,6 +16,8 @@ This repository contains essential documentation about the Cadmus Itinera projec
 ## General
 
 - [historical datation](./help/historical-date.md)
+- [person name](./help/person-name.md)
+- [external IDs](./help/external-ids.md)
 
 ### Epistolography
 
