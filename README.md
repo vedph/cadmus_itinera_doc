@@ -42,7 +42,7 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [catchwords](./help/ms-catchwords-part.md)
 - [composition](./help/ms-composition-part.md)
 - [content's loci](./help/ms-content-loci-part.md)
-- contents
+- [contents](./help/ms-contents-part.md)
 - decorations
 - dimensions
 - hands
