@@ -41,7 +41,7 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [binding](./help/ms-binding-part.md)
 - [catchwords](./help/ms-catchwords-part.md)
 - [composition](./help/ms-composition-part.md)
-- content's loci
+- [content's loci](./help/ms-content-loci-part.md)
 - contents
 - decorations
 - dimensions
