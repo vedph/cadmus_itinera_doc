@@ -46,7 +46,7 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [decorations](./help/ms-decorations-part.md)
 - [dimensions](./help/ms-dimensions-part.md)
 - [hands](./help/ms-hands-part.md)
-- history
+- [history](./help/ms-history-part.md)
 - material description
 - numberings
 - place
