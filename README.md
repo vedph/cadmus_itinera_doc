@@ -34,7 +34,7 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [letter information](./help/letter-info-part.md)
 - [person events](./help/person-events-part.md)
 - [person](./help/person-part.md)
-- poetic text information
+- [poetic text information](./help/poetic-text-info.md)
 
 ### Codicology
 
