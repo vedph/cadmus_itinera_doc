@@ -292,6 +292,7 @@ Note: the item's title is the poetic text's title, so there is no need to duplic
 
 ### PersonHandPart
 
+- `personId` (`string`): a unique, arbitrary internal ID assigned to the person whose hand is described here.
 - `type` (`string`, thesaurus)
 - `job` (`string`, thesaurus)
 - `description` (`string`, MD, 2000)

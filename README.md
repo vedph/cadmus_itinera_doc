@@ -33,12 +33,12 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [documentary references](./help/doc-references-part.md)
 - [letter information](./help/letter-info-part.md)
 - [person events](./help/person-events-part.md)
-- person's hand
 - person
 - poetic text information
 
 ### Codicology
 
+- person's hand
 - binding
 - catchwords
 - composition
