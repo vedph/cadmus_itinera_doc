@@ -33,12 +33,11 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [documentary references](./help/doc-references-part.md)
 - [letter information](./help/letter-info-part.md)
 - [person events](./help/person-events-part.md)
-- person
+- [person](./help/person-part.md)
 - poetic text information
 
 ### Codicology
 
-- [person's hand](./help/person-hand-part.md)
 - binding
 - catchwords
 - composition
@@ -55,3 +54,4 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - quires
 - signatures
 - watermarks
+- [person's hand](./help/person-hand-part.md)
