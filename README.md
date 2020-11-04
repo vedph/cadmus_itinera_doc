@@ -38,7 +38,7 @@ This repository contains essential documentation about the Cadmus Itinera projec
 
 ### Codicology
 
-- binding
+- [binding](./help/ms-binding-part.md)
 - catchwords
 - composition
 - content's loci
