@@ -38,7 +38,7 @@ This repository contains essential documentation about the Cadmus Itinera projec
 
 ### Codicology
 
-- person's hand
+- [person's hand](./help/person-hand-part.md)
 - binding
 - catchwords
 - composition
