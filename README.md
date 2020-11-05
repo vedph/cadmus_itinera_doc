@@ -52,6 +52,6 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [place](./help/ms-place-part.md)
 - [poem ranges](./help/ms-poem-ranges-part.md)
 - [quires](./help/ms-quires-part.md)
-- signatures
+- [signatures](./help/ms-signatures-part.md)
 - watermarks
 - [person's hand](./help/person-hand-part.md)
