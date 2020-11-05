@@ -1,5 +1,7 @@
 # Itinera Documentation
 
+- [quick start](./quick-start.md): play with Itinera in Cadmus in 3 steps
+
 This repository contains essential documentation about the Cadmus Itinera project. Its code is included in the following repositories:
 
 - [core models](https://github.com/vedph/cadmus_itinera)
@@ -13,7 +15,13 @@ This repository contains essential documentation about the Cadmus Itinera projec
 
 ## User Manual
 
+Please refer to the [conceptual documentation](models.md) to understand the models being edited in the UI.
+
+- [quick start](./quick-start.md)
+
 ## General
+
+General-purpose editors, used across several part editors.
 
 - [historical datation](./help/historical-date.md)
 - [person name](./help/person-name.md)
@@ -24,6 +32,8 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [physical size](./help/physical-size.md)
 
 ### Epistolography
+
+Epistolography part editors.
 
 - [attachments](./help/attachments-part.md)
 - [chronotopics](./help/chronotopics-part.md)
@@ -37,6 +47,8 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [poetic text information](./help/poetic-text-info.md)
 
 ### Codicology
+
+Codicology part editors.
 
 - [binding](./help/ms-binding-part.md)
 - [catchwords](./help/ms-catchwords-part.md)
