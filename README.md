@@ -49,8 +49,8 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [history](./help/ms-history-part.md)
 - [material description](./help/ms-material-dsc-part.md)
 - [numberings](./help/ms-numberings-part.md)
-- place
-- poem ranges
+- [place](./help/ms-place-part.md)
+- [poem ranges](./help/ms-poem-ranges-part.md)
 - quires
 - signatures
 - watermarks
