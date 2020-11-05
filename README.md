@@ -47,8 +47,8 @@ This repository contains essential documentation about the Cadmus Itinera projec
 - [dimensions](./help/ms-dimensions-part.md)
 - [hands](./help/ms-hands-part.md)
 - [history](./help/ms-history-part.md)
-- [material description](./help/ms-material-dsc.md)
-- numberings
+- [material description](./help/ms-material-dsc-part.md)
+- [numberings](./help/ms-numberings-part.md)
 - place
 - poem ranges
 - quires
