@@ -264,7 +264,10 @@ Spatial and temporal coordinates for a letter or a related poetic text.
 
 - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
 - `subject`\* (`string`, MD, 500)
-- `heading` (`string`): the heading found in the manuscript text.
+- `authorId`\* (`string`)
+- `headings` (`string[]`): zero or more headings found in the manuscript text or its variants.
+- `recipients`\* (`DecoratedId[]`): recipient(s), at least 1.
+- `replyingTo` (`DecoratedId[]`)
 - `note` (`string`, MD, max 1000): a general-purpose free text note to hold "varia".
 
 ### AttachmentsPart
@@ -284,7 +287,10 @@ Attachments linked to a letter or poetic text.
 
 - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
 - `subject`\* (`string`, MD, 500)
+- `headings` (`string[]`)
 - `metre` (`string`, thesaurus)
+- `recipients` (`DecoratedId[]`)
+- `replyingTo` (`DecoratedId[]`)
 - `authors` (`CitedPerson[]`)
 - `related` (`DocReference[]`): related text passages.
 
