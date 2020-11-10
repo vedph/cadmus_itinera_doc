@@ -9,7 +9,7 @@ You can use a Windows, Linux or MacOS machine. The only requirement is that you 
 Also, you should be able to open a terminal window in a folder:
 
 - on Windows, open the folder you want in file explorer's `File` menu and pick `open Windows Powershell`.
-- for MacOS users, open the folder and then from `Finder/Services` pick `New Terminal at Folder`. Should this not be displayed, see [this help page](https://www.howtogeek.com/210147/how-to-open-terminal-in-the-current-os-x-finder-location/).
+- for MacOS users, open the folder and then from `Finder/Services` pick `New Terminal at Folder`. Should this not be displayed, see [this help page](https://www.howtogeek.com/210147/how-to-open-terminal-in-the-current-os-x-finder-location/). Alternatively, open a terminal window, then type `cd ` (mind the space after `cd`); then, drag the folder which contains the downloaded file into that terminal windows. This should append to the `cd` command the name of the folder, building a command like e.g. `cd /Users/yourusername/Desktop/itinera` assuming that your folder is named `itinera` and is located in your desktop. Then press `enter` in the terminal window, which should execute the `cd` command. This command changes the current directory to the one specified, which should be that including the downloaded file. You can ensure you are located at the right folder by issuing the `ls` command, which should list the files in that folder, among which there should be `docker-compose.yml`.
 - it's safe to assume that Linux users already know how to this.
 
 ## Starting the System
