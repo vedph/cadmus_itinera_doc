@@ -67,6 +67,7 @@ Some commonly reused (sub-part) models are listed here:
 
   - `tag`\* (`string`)
   - `place`\* (`string`)
+  - `isPlaceDubious` (`boolean`)
   - `date`\* (`HistoricalDate`)
   - `textDate` (`string`): the attested text form of the date. It might also be different from the reconstructed one.
   - `sources` (`DocReference[]`)
@@ -114,6 +115,7 @@ The letter item has 7 part types (2 generic):
 The correspondent item has 8 part types (2 generic):
 
 - `PersonPart`: biographic data (`it.vedph.itinera.person`).
+- `PersonWorksPart`: works (`it.vedph.itinera.person-works`).
 - `PersonEventsPart`: events in a person's life (`it.vedph.itinera.person-events`); biographic events and meetings are separated into two such parts, with different roles (`ebio` and `emet`).
 - `CorrDedicationsPart`: dedications involving the correspondent, i.e. by the correspondent to the reference author, or vice-versa (`it.vedph.itinera.corr-dedications`).
 - `CorrPseudonymsPart`: pseudonyms for the correspondent used by the reference author, or vice-versa (`it.vedph.itinera.corr-pseudonyms`).
