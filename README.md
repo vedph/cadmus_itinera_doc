@@ -15,8 +15,6 @@ This repository contains essential documentation about the Cadmus Itinera projec
 
 ## User Manual
 
-Please refer to the [conceptual documentation](models.md) to understand the models being edited in the UI.
-
 - [quick start](./quick-start.md)
 
 ## General

@@ -46,9 +46,10 @@ Some commonly reused (sub-part) models are listed here:
 
 - `MsLocation`: a location in a manuscript:
 
-  - `n`\* (`number`): sheet number
-  - `v` (`bool`): recto (false)/verso (true)
-  - `l` (`number`): line number
+  - `n`\* (`number`): sheet number.
+  - `r` (`bool`): true if Roman number.
+  - `v` (`number`): 0=unspecified, 1=recto, 2=verso, 3=both recto and verso.
+  - `l` (`number`): line number.
 
 - `DecoratedCount`:
 
@@ -264,6 +265,7 @@ Spatial and temporal coordinates for a letter or a related poetic text.
 
 ### LetterInfoPart
 
+- `letterId`\* (`string`)
 - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
 - `subject`\* (`string`, MD, 500)
 - `authorId`\* (`string`)
@@ -287,6 +289,7 @@ Attachments linked to a letter or poetic text.
 
 ### PoeticTextInfoPart
 
+- `textId`\* (`string`)
 - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
 - `subject`\* (`string`, MD, 500)
 - `headings` (`string[]`)
@@ -301,19 +304,8 @@ Note: the item's title is the poetic text's title, so there is no need to duplic
 ### PersonHandPart
 
 - `personId` (`string`): a unique, arbitrary internal ID assigned to the person whose hand is described here.
-- `type` (`string`, thesaurus)
 - `job` (`string`, thesaurus)
-- `description` (`string`, MD, 2000)
-- `initials` (`string`)
-- `corrections` (`string`)
-- `punctuation` (`string`)
-- `abbreviations` (`string`, MD, 1000)
-- `imageIds` (`string[]`)
-- `signs` (`MsHandSign`[]): description of any relevant graphical sign, whether it's a letter or not (the type is specified in `type`):
-  - `id`\* (`string`): this must be a unique, arbitrarily chosen string for this sign
-  - `type`\* (`string`, thesaurus)
-  - `description` (`string`, MD, 1000)
-  - `imageId` (`string`): this is an ID representing the prefix for all the images representing that sign; e.g. if it is `ae`, we would expect any number of image resources named after it plus a conventional numbering, like `ae00001`, `ae00002`, etc.
+- `others` (`DocReference[]`)
 
 ### MsSignaturesPart
 
@@ -341,7 +333,8 @@ At least 1 must be present. The signature with empty tag is the default (current
   - `label`\* (`string`)
   - `start`\* (`MsLocation`)
   - `end`\* (`MsLocation`)
-  - `date`\* (`HistoricalDate`)
+  - `era` (`string`, thesaurus)
+  - `date` (`HistoricalDate`)
 
 ### MsPlacePart
 
@@ -358,8 +351,8 @@ Place of origin (provenance is in `MsHistoryPart`).
 ### MsMaterialDscPart
 
 - `material`\* (`string`, thesaurus)
-- `format`\* (`string`, thesaurus)
 - `state`\* (`string`, thesaurus)
+- `format` (`string`, thesaurus)
 - `stateNote` (`string`, 500)
 - `palimpsests` (`MsPalimpsest[]`):
   - `location`\* (`MsLocation`)
@@ -368,11 +361,12 @@ Place of origin (provenance is in `MsHistoryPart`).
 
 ### MsDimensionsPart
 
-- `sample`\* (`MsLocation`): the sheet used as the sample for taking measurements.
-- `dimensions` (`PhysicalDimension[]`): any number of measurements taken for any kind of measurable thing in the manuscript.
-- `counts` (`DecoratedCount[]`)
-
-The `counts` property allows entering any number of counts with different levels of precision. For instance, you might have `rowMinCount`, `rowMaxCount`, `lineCount`, `approxLineCount`, `lineMinCount`, `lineMaxCount`, `prickCount`, etc. It also allows descriptions for properties like columns, direction, blanks, ruling, execution, etc., eventually with a count (which might represent an average, or the most frequent value, etc.).
+- `layouts` (`MsLayout[]`):
+  - `sample`\* (`MsLocation`): the sheet used as the sample for taking measurements and counts.
+  - `dimensions` (`PhysicalDimension[]`): any number of measurements taken for any kind of measurable thing in the manuscript. TODO: use formula for entering.
+  - `columnCount`'\* (`int`)
+  - `rulingTechnique` (`string`, thesaurus)
+  - `counts` (`DecoratedCount[]`): any number of counts. This allows entering any number of counts with different levels of precision. For instance, you might have `rowMinCount`, `rowMaxCount`, `lineCount`, `approxLineCount`, `lineMinCount`, `lineMaxCount`, `prickCount`, etc. It also allows descriptions for properties like columns, direction, blanks, ruling, execution, etc., eventually with a count (which might represent an average, or the most frequent value, etc.).
 
 ### MsWatermarksPart
 
@@ -388,6 +382,7 @@ The `counts` property allows entering any number of counts with different levels
 
 - `numberings` (`MsNumbering[]`):
   - `isMain` (`boolean`)
+  - `isPagination` (`boolean`): cartulazione vs. paginazione.
   - `era`\* (`string`, thesaurus: one from "coeva", "antica", "moderna", "recente")
   - `system`\* (`string`, thesaurus)
   - `technique`\* (`string`, thesaurus)
@@ -398,7 +393,7 @@ The `counts` property allows entering any number of counts with different levels
 ### MsQuiresPart
 
 - `quires` (`MsQuire[]`):
-  - `isMain` (`boolean`)
+  - `tag` (`string`, thesaurus)
   - `startNr`\* (`number`)
   - `endNr`\* (`number`)
   - `sheetCount`\* (`number`)
@@ -425,28 +420,41 @@ Note: allow users to enter collations using formulas like `1-3^4-1`. In this syn
 
 - `hands` (`MsHandInstance[]`):
   - `id`\* (`string`)
+  - `types`\* (`string[]`, thesaurus)  
+  - `personId` (`string`)
+  - `description`\* (`string`, MD, 2000)
+  - `initials` (`string`)
+  - `corrections` (`string`)
+  - `punctuation` (`string`)
+  - `abbreviations` (`string`, MD, 1000)
   - `idReason`\* (`string`, thesaurus)
-  - `start` (`MsLocation`)
-  - `end` (`MsLocation`)
+  - `locations`\* (`MsLocationRange[]`):
+    - `start` (`MsLocation`)
+    - `end` (`MsLocation`)
   - `extentNote` (`string`)
   - `rubrications` (`MsRubrication[]`):
-    - `location`\* (`MsLocation`)
+    - `locations` (`MsLocation[]`)
     - `type`\* (`string`, thesaurus)
     - `description` (`string`)
     - `issues` (`string`)
   - `subscription` (`MsSubscription`):
-    - `location`\* (`MsLocation`)
+    - `locations`\* (`MsLocation[]`)
     - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
     - `text` (`string`)
+  - `signs` (`MsHandSign`[]): description of any relevant graphical sign, whether it's a letter or not (the type is specified in `type`):
+    - `id`\* (`string`): this must be a unique, arbitrarily chosen string for this sign
+    - `type`\* (`string`, thesaurus)
+    - `description` (`string`, MD, 1000)
+    - `imageId` (`string`): this is an ID representing the prefix for all the images representing that sign; e.g. if it is `ae`, we would expect any number of image resources named after it plus a conventional numbering, like `ae00001`, `ae00002`, etc.
+  - `imageIds` (`string[]`)
 
 ### MsDecorationsPart
 
 - `decorations` (`MsDecoration[]`):
   - `type`\* (`string`, thesaurus)
-  - `subject`\* (`string`)
+  - `subject` (`string`)
   - `colors`\* (`string[]`; 0-N picks from a thesaurus)
-  - `layout`\* (`string`, thesaurus)
-  - `tool`\* (`string`, thesaurus)
+  - `tool` (`string`, thesaurus)
   - `start` (`MsLocation`)
   - `end` (`MsLocation`)
   - `position` (`string`, thesaurus)
@@ -463,6 +471,7 @@ Note: allow users to enter collations using formulas like `1-3^4-1`. In this syn
     - `name`\* (`string`)
     - `note` (`string`)
     - `sources` (`DocReference[]`)
+  - `note` (`string`)
 
 ### MsBindingPart
 
@@ -478,8 +487,9 @@ Note: allow users to enter collations using formulas like `1-3^4-1`. In this syn
   - `author` (`string`)
   - `claimedAuthor` (`string`)
   - `work`\* (`string`)
-  - `start` (`MsLocation`)
-  - `end` (`MsLocation`)
+  - locations:TODO??
+    - `start` (`MsLocation`)
+    - `end` (`MsLocation`)
   - `state` (`string`, thesaurus)
   - `note` (`string`)
   - `units` (`MsContentUnit[]`):
@@ -494,6 +504,8 @@ Loci critici.
 - `loci` (`MsContentLocus[]`)
   - `citation`\* (`string`)
   - `text`\* (`string`)
+  - `refSheet` (`MsLocation`)
+  - `imageId` (`string`)
 
 ### MsHistoryPart
 
@@ -528,6 +540,8 @@ Loci critici.
 ### MsPoemRangesPart
 
 This part defines the sequence of poems or other types of numbered compositions in a manuscript. This is used to compare the sequence of poems in different mss of Petrarch's RVF.
+
+TODO: allow starting with letter
 
 - `tag` (`string`)
 - `ranges`\* (`AlnumRange[]`):
