@@ -418,7 +418,7 @@ Note: allow users to enter collations using formulas like `1-3^4-1`. In this syn
 
 ### MsHandsPart
 
-- `hands` (`MsHandInstance[]`):
+- `hands` (`MsHand[]`):
   - `id`\* (`string`)
   - `types`\* (`string[]`, thesaurus)  
   - `personId` (`string`)
@@ -428,7 +428,7 @@ Note: allow users to enter collations using formulas like `1-3^4-1`. In this syn
   - `punctuation` (`string`)
   - `abbreviations` (`string`, MD, 1000)
   - `idReason`\* (`string`, thesaurus)
-  - `locations`\* (`MsLocationRange[]`):
+  - `ranges`\* (`MsLocationRange[]`):
     - `start` (`MsLocation`)
     - `end` (`MsLocation`)
   - `extentNote` (`string`)
