@@ -154,7 +154,7 @@ The manuscript item has 17 parts (3 generic):
 - `MsCompositionPart`: composition (`it.vedph.itinera.ms-composition`).
 - `MsPlacePart`: place of origin (`it.vedph.itinera.ms-place`).
 - `MsMaterialDscPart`: material description (`it.vedph.itinera.ms-material-dsc`).
-- `MsDimensionsPart`: dimensions (`it.vedph.itinera.ms-dimensions`).
+- `MsLayoutsPart`: layouts (`it.vedph.itinera.ms-layouts`).
 - `MsWatermarksPart`: watermarks (`it.vedph.itinera.ms-watermarks`).
 - `MsNumberingsPart`: numberings (`it.vedph.itinera.ms-numberings`).
 - `MsQuiresPart`: quires (`it.vedph.itinera.ms-quires`).
@@ -359,7 +359,9 @@ Place of origin (provenance is in `MsHistoryPart`).
   - `date` (`HistoricalDate`)
   - `note` (`string`)
 
-### MsDimensionsPart
+### MsLayoutsPart
+
+Formerly `MsDimensionsPart`.
 
 - `layouts` (`MsLayout[]`):
   - `sample`\* (`MsLocation`): the sheet used as the sample for taking measurements and counts.
@@ -420,7 +422,7 @@ Note: allow users to enter collations using formulas like `1-3^4-1`. In this syn
 
 - `hands` (`MsHand[]`):
   - `id`\* (`string`)
-  - `types`\* (`string[]`, thesaurus)  
+  - `types`\* (`string[]`, thesaurus `ms-hand-types`)
   - `personId` (`string`)
   - `description`\* (`string`, MD, 2000)
   - `initials` (`string`)
@@ -443,7 +445,7 @@ Note: allow users to enter collations using formulas like `1-3^4-1`. In this syn
     - `text` (`string`)
   - `signs` (`MsHandSign`[]): description of any relevant graphical sign, whether it's a letter or not (the type is specified in `type`):
     - `id`\* (`string`): this must be a unique, arbitrarily chosen string for this sign
-    - `type`\* (`string`, thesaurus)
+    - `type`\* (`string`, thesaurus `ms-hand-sign-types`)
     - `description` (`string`, MD, 1000)
     - `imageId` (`string`): this is an ID representing the prefix for all the images representing that sign; e.g. if it is `ae`, we would expect any number of image resources named after it plus a conventional numbering, like `ae00001`, `ae00002`, etc.
   - `imageIds` (`string[]`)
