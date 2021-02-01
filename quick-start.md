@@ -18,7 +18,7 @@ Also, you should be able to open a terminal window in a folder:
 
 2. from a command prompt, enter the directory where you saved the `docker-compose.yml` file, and type the command `docker-compose up` (**note**: use `sudo` for Linux or MacOS; usually this will prompt you for your computer's account password). This fires the backend and frontend services, and the first time it creates and seeds mock databases; so this will take one minute or two, depending on the performance of your machine. You will see a number of log information being dumped on the screen, and a total of 100 items being seeded into the newly created database. You should wait until the dump stops with no more messages. Just ensure that there are no error messages. Please notice that to allow other services startup, the API waits for a minute or less before continuing; so, depending on the speed of your host system, it might happen that the other services are already done and the API is still waiting, and in this interval of time you won't see any message dumped; it will resume as soon as the API continues.
 
-3. if everything went OK, open your browser at `localhost:4200`. To login:
+3. if everything was OK, open your browser at `localhost:4200`. To login:
 
 - username: `zeus`
 - password: `P4ss-W0rd!`
@@ -29,6 +29,6 @@ These credentials are found in the `appsettings.json` configuration file of the 
 
 When you have finished playing with the system, just issue a `docker-compose down` command in the folder where you downloaded the composer script. This will clear everything, so that the next time you start the script again, it will restart fresh, rebuilding all the data.
 
-If you just want to stop playing for a bit and then re-enter the system without resetting it, just break out of the terminal window you opened when launching it with `docker-compose up` (e.g. CTRL+C in Windows). The next time you launch the compose up command, you will find the same data you left.
+If you just want to stop playing for a bit and then re-enter the system without resetting it, break out of the terminal window you opened when launching it with `docker-compose up` (e.g. CTRL+C in Windows). The next time you launch the compose up command, you will find the same data you left.
 
 Whenever a new version of the system is published, and you want to upgrade, you just have to `docker-compose down` your current version, download the `docker-compose.yml` file again, and restart.
