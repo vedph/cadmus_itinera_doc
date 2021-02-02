@@ -1,6 +1,6 @@
 # Itinera Data Architecture Overview
 
-The Cadmus data model for the *Itinera* project includes 5 item types:
+The Cadmus data model for the _Itinera_ project includes 5 item types:
 
 - letter
 - correspondent
@@ -50,3 +50,27 @@ This database has a completely independent modeling, which takes no dependency f
 - the design is focused on the work, having any number of authors and keywords. Each work can also be contained in a container (e.g. a journal, a collection of proceedings, a miscellany book, etc.); the container in turn is just another work, with the only difference that it cannot have a container. This allows to enter bibliographic records representing containers just once, rather than repeating them whenever a contained work needs to be entered.
 
 - the design ensures that every author and work has its own ID, guaranteed to be unique also beyond the scope of the database itself. This is possible because this ID is a GUID, rather than some more scoped value like an arbitrary number. This is very useful for connecting such data to the external world, eventually via LOD.
+
+The following schema summarizes the Cadmus Itinera layers:
+
+![external bibliography](./images/ext-bibliography.png)
+
+At the bottom of the layers stack, corresponding to the top of this schema, there are 5 databases, using MongoDB (for data, authentication, and auditing) and MySql (for real-time data indexing). Also, an independent MySql database is used by the bibliography system. This is the _data layer_.
+
+The Cadmus core components deal with all these data except bibliography, which being independent is handled by the bibliography core. This is the _business layer_, with the core system logic.
+
+These data with the functions operating on them are exposed via two distinct RESTful APIs: one belongs to the Cadmus system (`capi`), the other to the bibliography system (`bapi`).
+
+Finally, the frontend web application leverages both APIs. Usually, a Cadmus item like that depicted at the bottom of the schema, and its parts like part X, are managed via the Cadmus API only. In the case of the external bibliography part instead, both the APIs are used: one to fetch bibliographic records and eventually add, modify, or delete them (`bapi`); another to edit the part as usual (`capi`): in this case, the part just contains a set of references to bibliographic records, eventually accompanied by some metadata.
+
+In this scenario, the bibliographic system is completely independent and has no notion of Cadmus; it could be easily used in any other environment as an independent resource. Databases are independent, too: both can exist without the other. In fact, it's only a single part type which uses the external bibliographic resource; all the other parts completely ignore it, and can be edited even if that resource is not available.
+
+The only connection between the two databases (`data` and `biblio`) is represented by the ID of the bibliographic records used in the external bibliography part to reference them. This is just a string, which in this case corresponds to a GUID (as the GUID is the ID for works in the bibliographic system); if using other bibliographic sources it could correspond to a number, an arbitrary string, etc. Using the GUID here ensures the stability of the ID whatever its context, so that we can confidently store references to these external records.
+
+Thus, this scenario represents the model for integrating external resources into the Cadmus editor: here we have a completely independent resource, with its own database, software components, and public web API, which gets used by a specific part editor.
+
+Further, here the integration is very high, because the bibliographic system can share the authentication and auditing databases already used by Cadmus. Configuring the bibliographic system in this way allows users to directly edit the bibliographic part, without having to first login in that subsystem; rather, the same account _can_ be used for both Cadmus and bibliography.
+
+This makes this integration completely transparent to the end user, who edits the bibliography part just like any other, without even knowing that bibliography is a completely independent system. Effectively, Cadmus here is acting as a sort of editing hub, where different resources converge to be edited in the same way, inside the same application. Anyway, the same could apply to any other scenario involving editing or just using a third party available resource: the part editor can be a full fledged editing application, operating with any number of resources, either coming from Cadmus or from the external world.
+
+Thus, Cadmus provides an editing framework which can expand in both directions: internally, by adding new parts; and externally, by adding new third-party resources.
