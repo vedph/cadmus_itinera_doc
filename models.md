@@ -11,11 +11,11 @@ In general, this architecture is targeted to modular content creation. The usual
 
 There are 5 items in the Cadmus DB:
 
-- letters: data about letters (not their text);
-- correspondents of the letters;
-- poetic texts related to the letters;
-- manuscripts;
-- manuscript hands.
+- *letters*: data about letters (not their text);
+- *correspondents* of the letters;
+- *poetic texts* related to the letters;
+- *manuscripts*;
+- manuscript *hands*.
 
 About 30 part types are variously assigned to those items.
 
@@ -101,29 +101,29 @@ At least 1 among `w`/`h`/`d` should be specified.
 
 ## Letter Item
 
-The letter item has 7 part types (2 generic):
+The letter item has 7 part types:
 
-- `LetterInfoPart`: essential metadata about a letter (`it.vedph.itinera.letter-info`).
-- `ChronotopicsPart`: date and place (`it.vedph.itinera.chronotopics`).
-- `DocReferencesPart`: references to documents (`it.vedph.itinera.doc-references`).
 - `AttachmentsPart`: letter's attachments (`it.vedph.itinera.attachments`).
-- `CitedPersonsPart`: persons cited in the letter (`it.vedph.itinera.cited-persons`).
 - `BibliographyPart`: bibliography (`it.vedph.bibliography`).
+- `ChronotopicsPart`: date and place (`it.vedph.itinera.chronotopics`).
+- `CitedPersonsPart`: persons cited in the letter (`it.vedph.itinera.cited-persons`).
+- `DocReferencesPart`: references to documents (`it.vedph.itinera.doc-references`).
+- `LetterInfoPart`\*: essential metadata about a letter (`it.vedph.itinera.letter-info`).
 - `NotePart`: general purpose note (`it.vedph.note`).
 
 ## Correspondent Item
 
-The correspondent item has 8 part types (2 generic):
+The correspondent item has 9 part types:
 
-- `PersonPart`: biographic data (`it.vedph.itinera.person`).
-- `PersonWorksPart`: works (`it.vedph.itinera.person-works`).
-- `PersonEventsPart`: events in a person's life (`it.vedph.itinera.person-events`); biographic events and meetings are separated into two such parts, with different roles (`ebio` and `emet`).
-- `CorrDedicationsPart`: dedications involving the correspondent, i.e. by the correspondent to the reference author, or vice-versa (`it.vedph.itinera.corr-dedications`).
-- `CorrPseudonymsPart`: pseudonyms for the correspondent used by the reference author, or vice-versa (`it.vedph.itinera.corr-pseudonyms`).
-- `CorrExchangesPart`: exchanges of works, manuscripts or other objects involving the correspondent (`it.vedph.itinera.corr-exchanges`).
-- `DocReferencesPart`: references made by author; references made by correspondent. A role distinguishes the two usages (`it.vedph.itinera.doc-references` with roles `auth` and `corr`).
 - `BibliographyPart`: bibliography (`it.vedph.bibliography`).
+- `CorrDedicationsPart`: dedications involving the correspondent, i.e. by the correspondent to the reference author, or vice-versa (`it.vedph.itinera.corr-dedications`).
+- `CorrExchangesPart`: exchanges of works, manuscripts or other objects involving the correspondent (`it.vedph.itinera.corr-exchanges`).
+- `CorrPseudonymsPart`: pseudonyms for the correspondent used by the reference author, or vice-versa (`it.vedph.itinera.corr-pseudonyms`).
+- `DocReferencesPart`: references made by author; references made by correspondent. A role distinguishes the two usages (`it.vedph.itinera.doc-references` with roles `auth` and `corr`).
 - `NotePart`: general purpose note (`it.vedph.note`).
+- `PersonEventsPart`: events in a person's life (`it.vedph.itinera.person-events`); biographic events and meetings are separated into two such parts, with different roles (`ebio` and `emet`).
+- `PersonPart`\*: biographic data (`it.vedph.itinera.person`).
+- `PersonWorksPart`: works (`it.vedph.itinera.person-works`).
 
 Note about _correspondents of correspondents_: given that their model is equal to or a subset of the author's correspondents, it makes more sense to just treat them as author's correspondents. That is, instead of having a _nested_ list of correspondents of correspondents inside each correspondent (thus building a recursive nesting), we would just keep a plain, _flat_ list of correspondents. Some of them would be correspondents of the reference author (here Petrarch); others would be correspondents of the correspondent X.
 
@@ -137,45 +137,48 @@ Each item in Cadmus can have a group ID for general purpose grouping, e.g. group
 
 ## Poetic Text Item
 
-The poetic text item has 6 parts (2 generic):
+The poetic text item has 6 parts:
 
-- `PoeticTextInfoPart`: essential metadata about a text.
-- `ChronotopicsPart`: date and place (`it.vedph.itinera.chronotopics`).
 - `AttachmentsPart`: letter's attachments (`it.vedph.itinera.attachments`).
-- `CitedPersonsPart`: persons cited in the text (`it.vedph.itinera.cited-persons`).
 - `BibliographyPart`: bibliography (`it.vedph.bibliography`).
+- `ChronotopicsPart`: date and place (`it.vedph.itinera.chronotopics`).
+- `CitedPersonsPart`: persons cited in the text (`it.vedph.itinera.cited-persons`).
 - `NotePart`: general purpose note (`it.vedph.note`).
+- `PoeticTextInfoPart`\*: essential metadata about a text.
 
 ## Manuscript Item
 
-The manuscript item has 17 parts (3 generic):
+The manuscript item has 21 parts:
 
-- `MsSignaturesPart`: signature(s) (`it.vedph.itinera.ms-signatures`).
-- `MsCompositionPart`: composition (`it.vedph.itinera.ms-composition`).
-- `MsPlacePart`: place of origin (`it.vedph.itinera.ms-place`).
-- `MsMaterialDscPart`: material description (`it.vedph.itinera.ms-material-dsc`).
-- `MsLayoutsPart`: layouts (`it.vedph.itinera.ms-layouts`).
-- `MsWatermarksPart`: watermarks (`it.vedph.itinera.ms-watermarks`).
-- `MsNumberingsPart`: numberings (`it.vedph.itinera.ms-numberings`).
-- `MsQuiresPart`: quires (`it.vedph.itinera.ms-quires`).
-- `MsCatchwordsPart`: catchwords (`it.vedph.itinera.ms-catchwords`).
-- `MsHandsPart`: hands (`it.vedph.itinera.ms-hands`).
-- `MsDecorationsPart`: decorations (`it.vedph.itinera.ms-decorations`).
-- `MsBindingPart`: binding (`it.vedph.itinera.ms-binding`).
-- `MsHistoryPart`: history of the MS (`it.vedph.itinera.ms-history`).
-- `MsPoemRangesPart`: poem's ranges in a manuscript (`it.vedph.itinera.ms-poem-ranges`).
 - `BibliographyPart`: bibliography (`it.vedph.bibliography`).
-- `NotePart`: general purpose note (`it.vedph.note`).
 - `HistoricalDatePart`: datatation (`it.vedph.historical-date`).
+- `MsBindingPart`: binding (`it.vedph.itinera.ms-binding`).
+- `MsCatchwordsPart`: catchwords (`it.vedph.itinera.ms-catchwords`).
+- `MsCompositionPart`: composition (`it.vedph.itinera.ms-composition`).
+- `MsDecorationsPart`: decorations (`it.vedph.itinera.ms-decorations`).
+- `MsContentLociPart`: "loci critici" (`it.vedph.itinera.ms-content-loci`).
+- `MsContentsPart`: contents (`it.vedph.itinera.ms-contents`).
+- `MsHandsPart`: hands (`it.vedph.itinera.ms-hands`).
+- `MsHistoricalDatePart` (`it.vedph.historical-date`).
+- `MsHistoryPart`: history of the MS (`it.vedph.itinera.ms-history`).
+- `MsLayoutsPart`: layouts (`it.vedph.itinera.ms-layouts`).
+- `MsMaterialDscPart`: material description (`it.vedph.itinera.ms-material-dsc`).
+- `MsNumberingsPart`: numberings (`it.vedph.itinera.ms-numberings`).
+- `MsPlacePart`: place of origin (`it.vedph.itinera.ms-place`).
+- `MsPoemRangesPart`: poem's ranges in a manuscript (`it.vedph.itinera.ms-poem-ranges`).
+- `MsQuiresPart`: quires (`it.vedph.itinera.ms-quires`).
+- `MsSignaturesPart`: signature(s) (`it.vedph.itinera.ms-signatures`).
+- `MsWatermarksPart`: watermarks (`it.vedph.itinera.ms-watermarks`).
+- `NotePart`: general purpose note (`it.vedph.note`).
 
 ## Hand Item
 
-The person's hand part has 4 parts (2 generic):
+The person's hand part has 4 parts:
 
-- `PersonPart`: biographic data (`it.vedph.itinera.person`).
-- `PersonHand`: hand's description (`it.vedph.itinera.person-hand`).
 - `BibliographyPart`: bibliography (`it.vedph.bibliography`).
 - `NotePart`: general purpose note (`it.vedph.note`).
+- `PersonHand`\*: hand's description (`it.vedph.itinera.person-hand`).
+- `PersonPart`: biographic data (`it.vedph.itinera.person`).
 
 ## Parts
 
@@ -195,7 +198,7 @@ This contains the ID and biographic data of any person (the part role ID makes t
 
 ### PersonEventsPart
 
-Any event relevant for the biography of a person, including his works. This part is used, with 2 different roles, for both the correspondent's biography and his meetings with the reference author.
+Any event relevant for the biography of a person, including his works.
 
 - `events` (`BioEvent[]`):
   - `type`\* (`string`; thesaurus)
@@ -542,8 +545,6 @@ Loci critici.
 ### MsPoemRangesPart
 
 This part defines the sequence of poems or other types of numbered compositions in a manuscript. This is used to compare the sequence of poems in different mss of Petrarch's RVF.
-
-TODO: allow starting with letter
 
 - `tag` (`string`)
 - `ranges`\* (`AlnumRange[]`):
