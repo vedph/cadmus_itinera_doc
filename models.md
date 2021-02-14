@@ -75,7 +75,7 @@ Some commonly reused (sub-part) models are listed here:
 
 Note that here and in other parts the _place just corresponds to a conventional name_ (e.g. `Napoli`). This is not a full-fledged geographic model, but just a name; including data like coordinates here would not be an option, because this would imply duplicating (i.e. re-entering and re-storing) them wherever the same name occurs. Rather, coordinates will be later automatically deduced from the name using a geolocation service like Google. We must thus ensure that the place name can be located without issues (eventually by enriching our geolocation request with restrictions, e.g. "in Italy" or the like).
 
-- `EpistAttachment`:
+- `Attachment`:
 
   - `type`\* (`string`; thesaurus: manuscript, work)
   - `name`\* (`string`; if work, use thesaurus of works): not specified if unindentified.
@@ -104,10 +104,10 @@ At least 1 among `w`/`h`/`d` should be specified.
 The letter item has 7 part types:
 
 - `AttachmentsPart`: letter's attachments (`it.vedph.itinera.attachments`).
-- `BibliographyPart`: bibliography (`it.vedph.bibliography`).
 - `ChronotopicsPart`: date and place (`it.vedph.itinera.chronotopics`).
 - `CitedPersonsPart`: persons cited in the letter (`it.vedph.itinera.cited-persons`).
 - `DocReferencesPart`: references to documents (`it.vedph.itinera.doc-references`).
+- `ExtBibliographyPart`: bibliography (`it.vedph.ext-bibliography`).
 - `LetterInfoPart`\*: essential metadata about a letter (`it.vedph.itinera.letter-info`).
 - `NotePart`: general purpose note (`it.vedph.note`).
 
@@ -115,13 +115,13 @@ The letter item has 7 part types:
 
 The correspondent item has 9 part types:
 
-- `BibliographyPart`: bibliography (`it.vedph.bibliography`).
 - `CorrDedicationsPart`: dedications involving the correspondent, i.e. by the correspondent to the reference author, or vice-versa (`it.vedph.itinera.corr-dedications`).
 - `CorrExchangesPart`: exchanges of works, manuscripts or other objects involving the correspondent (`it.vedph.itinera.corr-exchanges`).
 - `CorrPseudonymsPart`: pseudonyms for the correspondent used by the reference author, or vice-versa (`it.vedph.itinera.corr-pseudonyms`).
 - `DocReferencesPart`: references made by author; references made by correspondent. A role distinguishes the two usages (`it.vedph.itinera.doc-references` with roles `auth` and `corr`).
+- `ExtBibliographyPart`: bibliography (`it.vedph.ext-bibliography`).
 - `NotePart`: general purpose note (`it.vedph.note`).
-- `PersonEventsPart`: events in a person's life (`it.vedph.itinera.person-events`); biographic events and meetings are separated into two such parts, with different roles (`ebio` and `emet`).
+- `PersonEventsPart`: events in a person's life (`it.vedph.itinera.person-events`).
 - `PersonPart`\*: biographic data (`it.vedph.itinera.person`).
 - `PersonWorksPart`: works (`it.vedph.itinera.person-works`).
 
@@ -140,26 +140,25 @@ Each item in Cadmus can have a group ID for general purpose grouping, e.g. group
 The poetic text item has 6 parts:
 
 - `AttachmentsPart`: letter's attachments (`it.vedph.itinera.attachments`).
-- `BibliographyPart`: bibliography (`it.vedph.bibliography`).
 - `ChronotopicsPart`: date and place (`it.vedph.itinera.chronotopics`).
 - `CitedPersonsPart`: persons cited in the text (`it.vedph.itinera.cited-persons`).
+- `ExtBibliographyPart`: bibliography (`it.vedph.ext-bibliography`).
 - `NotePart`: general purpose note (`it.vedph.note`).
 - `PoeticTextInfoPart`\*: essential metadata about a text.
 
 ## Manuscript Item
 
-The manuscript item has 21 parts:
+The manuscript item has 20 parts:
 
-- `BibliographyPart`: bibliography (`it.vedph.bibliography`).
+- `ExtBibliographyPart`: bibliography (`it.vedph.ext-bibliography`).
 - `HistoricalDatePart`: datatation (`it.vedph.historical-date`).
 - `MsBindingPart`: binding (`it.vedph.itinera.ms-binding`).
 - `MsCatchwordsPart`: catchwords (`it.vedph.itinera.ms-catchwords`).
 - `MsCompositionPart`: composition (`it.vedph.itinera.ms-composition`).
-- `MsDecorationsPart`: decorations (`it.vedph.itinera.ms-decorations`).
 - `MsContentLociPart`: "loci critici" (`it.vedph.itinera.ms-content-loci`).
 - `MsContentsPart`: contents (`it.vedph.itinera.ms-contents`).
+- `MsDecorationsPart`: decorations (`it.vedph.itinera.ms-decorations`).
 - `MsHandsPart`: hands (`it.vedph.itinera.ms-hands`).
-- `MsHistoricalDatePart` (`it.vedph.historical-date`).
 - `MsHistoryPart`: history of the MS (`it.vedph.itinera.ms-history`).
 - `MsLayoutsPart`: layouts (`it.vedph.itinera.ms-layouts`).
 - `MsMaterialDscPart`: material description (`it.vedph.itinera.ms-material-dsc`).
@@ -175,42 +174,31 @@ The manuscript item has 21 parts:
 
 The person's hand part has 4 parts:
 
-- `BibliographyPart`: bibliography (`it.vedph.bibliography`).
+- `ExtBibliographyPart`: bibliography (`it.vedph.ext-bibliography`).
 - `NotePart`: general purpose note (`it.vedph.note`).
 - `PersonHand`\*: hand's description (`it.vedph.itinera.person-hand`).
 - `PersonPart`: biographic data (`it.vedph.itinera.person`).
 
 ## Parts
 
-### PersonPart
+### AttachmentsPart
 
-This contains the ID and biographic data of any person (the part role ID makes the distinction among different groups explicit). It can also represent any other generic actor, e.g. a group of persons ("Celestini").
+Attachments linked to a letter or poetic text.
 
-- `personId`\* (`string`, eventually from thesaurus): this is an internal human-readable ID for the correspondent, e.g. `barbato`, `flavio-2`, etc. It can used as a facility for referring to the correspondent across parts, without recurring to the machine-related item ID. Thus, it must be unique in the database.
-- `externalIds` (`string[]`): optional IDs in external resources which can be mapped to this correspondent.
-- `names`\* (`PersonName[]`): at least 1 name.
-- `sex` (`string`: `m`, `f`, or null if unknown)
-- `birthDate` (`HistoricalDate`)
-- `birthPlace` (`string`)
-- `deathDate` (`HistoricalDate`)
-- `deathPlace` (`string`)
-- `bio` (`string`, MD, 6000)
+- `attachments` (`EpistAttachment[]`)
 
-### PersonEventsPart
+### ChronotopicsPart
 
-Any event relevant for the biography of a person, including his works.
+Spatial and temporal coordinates for a letter or a related poetic text.
 
-- `events` (`BioEvent[]`):
-  - `type`\* (`string`; thesaurus)
-  - `date` (`HistoricalDate`)
-  - `places` (`string[]`)
-  - `description` (`string`, MD, 1000)
-  - `sources`\* (`DocReference[]`)
-  - `participants` (`DecoratedId[]`)
-  - `work` (`string`)
-  - `rank` (`number`)
-  - `isWorkLost` (`boolean`)
-  - `externalIds` (`string[]`)
+- chronotopes (`Chronotope[]`)
+
+### CitedPersonsPart
+
+- `persons` (`CitedPerson[]`):
+  - `ids` (`DecoratedId[]`)
+  - `sources` (`DocReference[]`)
+  - `name` (`PersonName`)
 
 ### CorrDedicationsPart
 
@@ -260,12 +248,6 @@ A list of document references (literary citations, short bibliographic reference
   - `location`: the work's location (e.g. `12.34`). For archive documents, it can be their location in the archive (e.g. a signature). For bibliographic references, it's usually a page number or other means of locating some passage.
   - `note`: a generic annotation.
 
-### ChronotopicsPart
-
-Spatial and temporal coordinates for a letter or a related poetic text.
-
-- chronotopes (`Chronotope[]`)
-
 ### LetterInfoPart
 
 - `letterId`\* (`string`)
@@ -277,49 +259,48 @@ Spatial and temporal coordinates for a letter or a related poetic text.
 - `replyingTo` (`DecoratedId[]`)
 - `note` (`string`, MD, max 1000): a general-purpose free text note to hold "varia".
 
-### AttachmentsPart
+### MsBindingPart
 
-Attachments linked to a letter or poetic text.
+- `century`\* (`number`)
+- `description`\* (`string`, MD, 5000)
+- `coverMaterial`\* (`string`, thesaurus)
+- `supportMaterial`\* (`string`, thesaurus)
+- `size` (`PhysicalSize`)
 
-- `attachments` (`EpistAttachment[]`)
+### MsContentLociPart
 
-### CitedPersonsPart
+Loci critici.
 
-- `persons` (`CitedPerson[]`):
-  - `ids` (`DecoratedId[]`)
-  - `sources` (`DocReference[]`)
-  - `name` (`PersonName`)
+- `loci` (`MsContentLocus[]`)
+  - `citation`\* (`string`)
+  - `text`\* (`string`)
+  - `refSheet` (`MsLocation`)
+  - `imageId` (`string`)
 
-### PoeticTextInfoPart
+### MsContentsPart
 
-- `textId`\* (`string`)
-- `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
-- `subject`\* (`string`, MD, 500)
-- `headings` (`string[]`)
-- `metre` (`string`, thesaurus)
-- `recipients` (`DecoratedId[]`)
-- `replyingTo` (`DecoratedId[]`)
-- `authors` (`CitedPerson[]`)
-- `related` (`DocReference[]`): related text passages.
+- `contents` (`MsContent[]`):
+  - `author` (`string`)
+  - `claimedAuthor` (`string`)
+  - `work`\* (`string`)
+  - locations:TODO??
+    - `start` (`MsLocation`)
+    - `end` (`MsLocation`)
+  - `state` (`string`, thesaurus)
+  - `note` (`string`)
+  - `units` (`MsContentUnit[]`):
+    - `label`\* (string)
+    - `incipit` (string)
+    - `explicit` (string)
 
-Note: the item's title is the poetic text's title, so there is no need to duplicate it in the info part.
+### MsCatchwordsPart
 
-### PersonHandPart
-
-- `personId` (`string`): a unique, arbitrary internal ID assigned to the person whose hand is described here.
-- `job` (`string`, thesaurus)
-- `others` (`DocReference[]`)
-
-### MsSignaturesPart
-
-- signatures (`MsSignature[]`):
-  - `tag` (string)
-  - `city`\* (`string`)
-  - `library`\* (`string`)
-  - `fund` (`string`)
-  - `location`\* (`string`)
-
-At least 1 must be present. The signature with empty tag is the default (current) signature. Other signatures may be added for historical reasons, and should have a tag.
+- `catchwords` (`MsCatchword[]`):
+  - `position`\* (`string`, thesaurus)
+  - `isVertical` (`boolean`)
+  - `decoration` (`string`)
+  - `register` (`string`): numerazioni/segnature a registro
+  - `note` (`string`)
 
 ### MsCompositionPart
 
@@ -339,86 +320,29 @@ At least 1 must be present. The signature with empty tag is the default (current
   - `era` (`string`, thesaurus)
   - `date` (`HistoricalDate`)
 
-### MsPlacePart
+### MsDecorationsPart
 
-Place of origin (provenance is in `MsHistoryPart`).
-
-- `area`\* (`string`, `thesaurus`)
-- `address` (`string`): this contains any number of components separated by comma, like in geocoding addresses, whereas the area is the top level component.
-- `city` (`string`)
-- `site` (`string`, `thesaurus`): e.g. "St. Paul monastry".
-- `subscriber` (`string`): subscriber ID (human-readable, arbitrary string)
-- `subscriptionLoc` (`MsLocation`)
-- `sources` (`DocReference[]`): modern bibliography references.
-
-### MsMaterialDscPart
-
-- `material`\* (`string`, thesaurus)
-- `state`\* (`string`, thesaurus)
-- `format` (`string`, thesaurus)
-- `stateNote` (`string`, 500)
-- `palimpsests` (`MsPalimpsest[]`):
-  - `location`\* (`MsLocation`)
-  - `date` (`HistoricalDate`)
-  - `note` (`string`)
-
-### MsLayoutsPart
-
-Formerly `MsDimensionsPart`.
-
-- `layouts` (`MsLayout[]`):
-  - `sample`\* (`MsLocation`): the sheet used as the sample for taking measurements and counts.
-  - `dimensions` (`PhysicalDimension[]`): any number of measurements taken for any kind of measurable thing in the manuscript. TODO: use formula for entering.
-  - `columnCount`'\* (`int`)
-  - `rulingTechnique` (`string`, thesaurus)
-  - `counts` (`DecoratedCount[]`): any number of counts. This allows entering any number of counts with different levels of precision. For instance, you might have `rowMinCount`, `rowMaxCount`, `lineCount`, `approxLineCount`, `lineMinCount`, `lineMaxCount`, `prickCount`, etc. It also allows descriptions for properties like columns, direction, blanks, ruling, execution, etc., eventually with a count (which might represent an average, or the most frequent value, etc.).
-
-### MsWatermarksPart
-
-- `watermarks` (`MsWatermark[]`):
-  - `subject`\* (`string`, thesaurus)
-  - `similarityRank` (`number`): a rank for the similarity of the watermark described here to the paradigmatic watermark model; the higher the number, the less similar is the watermark.
-  - `description` (`string`): a text description for this watermark instance.
-  - `place` (`string`)
-  - `date` (`HistoricalDate`)
-  - `externalIds` (`string[]`)
-
-### MsNumberingsPart
-
-- `numberings` (`MsNumbering[]`):
-  - `isMain` (`boolean`)
-  - `isPagination` (`boolean`): cartulazione vs. paginazione.
-  - `era`\* (`string`, thesaurus: one from "coeva", "antica", "moderna", "recente")
-  - `system`\* (`string`, thesaurus)
-  - `technique`\* (`string`, thesaurus)
-  - `century`\* (`number`)
+- `decorations` (`MsDecoration[]`):
+  - `type`\* (`string`, thesaurus)
+  - `subject` (`string`)
+  - `colors`\* (`string[]`; 0-N picks from a thesaurus)
+  - `tool` (`string`, thesaurus)
+  - `start` (`MsLocation`)
+  - `end` (`MsLocation`)
   - `position` (`string`, thesaurus)
-  - `issues` (`string`)
-
-### MsQuiresPart
-
-- `quires` (`MsQuire[]`):
-  - `tag` (`string`, thesaurus)
-  - `startNr`\* (`number`)
-  - `endNr`\* (`number`)
-  - `sheetCount`\* (`number`)
-  - `sheetDelta` (`number`, negative or positive)
-  - `note` (`string`)
-
-Note: allow users to enter collations using formulas like `1-3^4-1`. In this syntax we have any number of tokens separated by whitespace. Each token has the syntax `N-N^N±N {note}` where `-N` and `±N` are optional:
-
-- `N` or `N-N` is the gatherings range (=`startNr` and `endNr`; when only `N` is specified, both are assumed to be equal);
-- `^` introduces the sheets count (`sheetCount`);
-- `±N` adds an exceptionally missing or additional sheet count (`sheetDelta`).
-- `note` is an optional short note. It should not include braces.
-
-### MsCatchwordsPart
-
-- `catchwords` (`MsCatchword[]`):
-  - `position`\* (`string`, thesaurus)
-  - `isVertical` (`boolean`)
-  - `decoration` (`string`)
-  - `register` (`string`): numerazioni/segnature a registro
+  - `size` (`PhysicalSize`)
+  - `description` (`string`, MD, 1000)
+  - `textRelation` (`string`, 1000)
+  - `guideLetters` (`MsGuideLetter[]`):
+    - `position`\* (`string`, thesaurus)
+    - `morphology` (`string`)
+  - `imageId` (`string`): this is an ID representing the prefix for all the images representing the decoration; e.g. if it is `ae`, we would expect any number of image resources named after it plus a conventional numbering, like `ae00001`, `ae00002`, etc.
+  - `artist` (`MsDecorationArtist`):
+    - `type`\* (`string`, thesaurus)
+    - `id`\* (`string`): inner ID
+    - `name`\* (`string`)
+    - `note` (`string`)
+    - `sources` (`DocReference[]`)
   - `note` (`string`)
 
 ### MsHandsPart
@@ -453,65 +377,6 @@ Note: allow users to enter collations using formulas like `1-3^4-1`. In this syn
     - `imageId` (`string`): this is an ID representing the prefix for all the images representing that sign; e.g. if it is `ae`, we would expect any number of image resources named after it plus a conventional numbering, like `ae00001`, `ae00002`, etc.
   - `imageIds` (`string[]`)
 
-### MsDecorationsPart
-
-- `decorations` (`MsDecoration[]`):
-  - `type`\* (`string`, thesaurus)
-  - `subject` (`string`)
-  - `colors`\* (`string[]`; 0-N picks from a thesaurus)
-  - `tool` (`string`, thesaurus)
-  - `start` (`MsLocation`)
-  - `end` (`MsLocation`)
-  - `position` (`string`, thesaurus)
-  - `size` (`PhysicalSize`)
-  - `description` (`string`, MD, 1000)
-  - `textRelation` (`string`, 1000)
-  - `guideLetters` (`MsGuideLetter[]`):
-    - `position`\* (`string`, thesaurus)
-    - `morphology` (`string`)
-  - `imageId` (`string`): this is an ID representing the prefix for all the images representing the decoration; e.g. if it is `ae`, we would expect any number of image resources named after it plus a conventional numbering, like `ae00001`, `ae00002`, etc.
-  - `artist` (`MsDecorationArtist`):
-    - `type`\* (`string`, thesaurus)
-    - `id`\* (`string`): inner ID
-    - `name`\* (`string`)
-    - `note` (`string`)
-    - `sources` (`DocReference[]`)
-  - `note` (`string`)
-
-### MsBindingPart
-
-- `century`\* (`number`)
-- `description`\* (`string`, MD, 5000)
-- `coverMaterial`\* (`string`, thesaurus)
-- `supportMaterial`\* (`string`, thesaurus)
-- `size` (`PhysicalSize`)
-
-### MsContentsPart
-
-- `contents` (`MsContent[]`):
-  - `author` (`string`)
-  - `claimedAuthor` (`string`)
-  - `work`\* (`string`)
-  - locations:TODO??
-    - `start` (`MsLocation`)
-    - `end` (`MsLocation`)
-  - `state` (`string`, thesaurus)
-  - `note` (`string`)
-  - `units` (`MsContentUnit[]`):
-    - `label`\* (string)
-    - `incipit` (string)
-    - `explicit` (string)
-
-### MsContentLociPart
-
-Loci critici.
-
-- `loci` (`MsContentLocus[]`)
-  - `citation`\* (`string`)
-  - `text`\* (`string`)
-  - `refSheet` (`MsLocation`)
-  - `imageId` (`string`)
-
 ### MsHistoryPart
 
 - `provenances`\* (GeoAddress[], at least 1; in chronological order):
@@ -542,6 +407,52 @@ Loci critici.
   - `personId` (`string`)
   - `sources` (`DocReference[]`)
 
+### MsLayoutsPart
+
+Formerly `MsDimensionsPart`.
+
+- `layouts` (`MsLayout[]`):
+  - `sample`\* (`MsLocation`): the sheet used as the sample for taking measurements and counts.
+  - `dimensions` (`PhysicalDimension[]`): any number of measurements taken for any kind of measurable thing in the manuscript. TODO: use formula for entering.
+  - `columnCount`'\* (`int`)
+  - `rulingTechnique` (`string`, thesaurus)
+  - `counts` (`DecoratedCount[]`): any number of counts. This allows entering any number of counts with different levels of precision. For instance, you might have `rowMinCount`, `rowMaxCount`, `lineCount`, `approxLineCount`, `lineMinCount`, `lineMaxCount`, `prickCount`, etc. It also allows descriptions for properties like columns, direction, blanks, ruling, execution, etc., eventually with a count (which might represent an average, or the most frequent value, etc.).
+
+### MsMaterialDscPart
+
+- `material`\* (`string`, thesaurus)
+- `state`\* (`string`, thesaurus)
+- `format` (`string`, thesaurus)
+- `stateNote` (`string`, 500)
+- `palimpsests` (`MsPalimpsest[]`):
+  - `location`\* (`MsLocation`)
+  - `date` (`HistoricalDate`)
+  - `note` (`string`)
+
+### MsNumberingsPart
+
+- `numberings` (`MsNumbering[]`):
+  - `isMain` (`boolean`)
+  - `isPagination` (`boolean`): cartulazione vs. paginazione.
+  - `era`\* (`string`, thesaurus: one from "coeva", "antica", "moderna", "recente")
+  - `system`\* (`string`, thesaurus)
+  - `technique`\* (`string`, thesaurus)
+  - `century`\* (`number`)
+  - `position` (`string`, thesaurus)
+  - `issues` (`string`)
+
+### MsPlacePart
+
+Place of origin (provenance is in `MsHistoryPart`).
+
+- `area`\* (`string`, `thesaurus`)
+- `address` (`string`): this contains any number of components separated by comma, like in geocoding addresses, whereas the area is the top level component.
+- `city` (`string`)
+- `site` (`string`, `thesaurus`): e.g. "St. Paul monastry".
+- `subscriber` (`string`): subscriber ID (human-readable, arbitrary string)
+- `subscriptionLoc` (`MsLocation`)
+- `sources` (`DocReference[]`): modern bibliography references.
+
 ### MsPoemRangesPart
 
 This part defines the sequence of poems or other types of numbered compositions in a manuscript. This is used to compare the sequence of poems in different mss of Petrarch's RVF.
@@ -558,3 +469,91 @@ In ranges, values for `a` and `b` are strings representing "alphanumerics", i.e.
 - an alphanumeric with non-digit characters (e.g. `12a`, `12b1`, etc.) is sorted first by its numeric value, and then alphabetically by its string suffix.
 
 Ranges can be expressed only for alphanumerics with digits only, as they would be ambiguous in other cases: e.g. 12-15 means 12, 13, 14, 15; but 12-15a could be interpreted in a number of different ways, as we have no predefined convention for the non-digits part. For instance, a valid range could be `1-13, 15-19, 20a, 21-36, 38, 50-67`.
+
+### MsQuiresPart
+
+- `quires` (`MsQuire[]`):
+  - `tag` (`string`, thesaurus)
+  - `startNr`\* (`number`)
+  - `endNr`\* (`number`)
+  - `sheetCount`\* (`number`)
+  - `sheetDelta` (`number`, negative or positive)
+  - `note` (`string`)
+
+Note: allow users to enter collations using formulas like `1-3^4-1`. In this syntax we have any number of tokens separated by whitespace. Each token has the syntax `N-N^N±N {note}` where `-N` and `±N` are optional:
+
+- `N` or `N-N` is the gatherings range (=`startNr` and `endNr`; when only `N` is specified, both are assumed to be equal);
+- `^` introduces the sheets count (`sheetCount`);
+- `±N` adds an exceptionally missing or additional sheet count (`sheetDelta`).
+- `note` is an optional short note. It should not include braces.
+
+### MsSignaturesPart
+
+- signatures (`MsSignature[]`):
+  - `tag` (string)
+  - `city`\* (`string`)
+  - `library`\* (`string`)
+  - `fund` (`string`)
+  - `location`\* (`string`)
+
+At least 1 must be present. The signature with empty tag is the default (current) signature. Other signatures may be added for historical reasons, and should have a tag.
+
+### MsWatermarksPart
+
+- `watermarks` (`MsWatermark[]`):
+  - `subject`\* (`string`, thesaurus)
+  - `similarityRank` (`number`): a rank for the similarity of the watermark described here to the paradigmatic watermark model; the higher the number, the less similar is the watermark.
+  - `description` (`string`): a text description for this watermark instance.
+  - `place` (`string`)
+  - `date` (`HistoricalDate`)
+  - `externalIds` (`string[]`)
+
+### PersonEventsPart
+
+Any event relevant for the biography of a person, including his works.
+
+- `events` (`BioEvent[]`):
+  - `type`\* (`string`; thesaurus)
+  - `date` (`HistoricalDate`)
+  - `places` (`string[]`)
+  - `description` (`string`, MD, 1000)
+  - `sources`\* (`DocReference[]`)
+  - `participants` (`DecoratedId[]`)
+  - `work` (`string`)
+  - `rank` (`number`)
+  - `isWorkLost` (`boolean`)
+  - `externalIds` (`string[]`)
+
+### PersonPart
+
+This contains the ID and biographic data of any person (the part role ID makes the distinction among different groups explicit). It can also represent any other generic actor, e.g. a group of persons ("Celestini").
+
+- `personId`\* (`string`, eventually from thesaurus): this is an internal human-readable ID for the correspondent, e.g. `barbato`, `flavio-2`, etc. It can used as a facility for referring to the correspondent across parts, without recurring to the machine-related item ID. Thus, it must be unique in the database.
+- `externalIds` (`string[]`): optional IDs in external resources which can be mapped to this correspondent.
+- `names`\* (`PersonName[]`): at least 1 name.
+- `sex` (`string`: `m`, `f`, or null if unknown)
+- `birthDate` (`HistoricalDate`)
+- `birthPlace` (`string`)
+- `deathDate` (`HistoricalDate`)
+- `deathPlace` (`string`)
+- `bio` (`string`, MD, 6000)
+
+### PersonHandPart
+
+- `personId` (`string`): a unique, arbitrary internal ID assigned to the person whose hand is described here.
+- `job` (`string`, thesaurus)
+- `others` (`DocReference[]`)
+
+### PoeticTextInfoPart
+
+- `textId`\* (`string`)
+- `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
+- `subject`\* (`string`, MD, 500)
+- `headings` (`string[]`)
+- `metre` (`string`, thesaurus)
+- `recipients` (`DecoratedId[]`)
+- `replyingTo` (`DecoratedId[]`)
+- `authors` (`CitedPerson[]`)
+- `related` (`DocReference[]`): related text passages.
+
+Note: the item's title is the poetic text's title, so there is no need to duplicate it in the info part.
