@@ -222,7 +222,7 @@ The person's hand part has 4 parts:
 
 Attachments linked to a letter or poetic text.
 
-- `attachments` (`EpistAttachment[]`)
+- `attachments` (`Attachment[]`)
 
 ### ChronotopicsPart
 

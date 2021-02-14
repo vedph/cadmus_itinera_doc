@@ -1,24 +1,36 @@
 # Itinera Data Architecture Overview
 
+## Items
+
 The Cadmus data model for the _Itinera_ project includes 5 item types:
 
-- letter
-- correspondent
-- poetic text
-- manuscript
-- hand
+- *letters*: data about letters;
+- *correspondents* of the letters;
+- *poetic texts* related to the letters;
+- *manuscripts*;
+- manuscript *hands*.
 
 Of these models, letter, correspondent, and poetic text belong to the epistolography domain; manuscript and hands to the codicology domain.
 
 ![items](./images/models-items.png)
 
-## Epistolography
+## Letters
 
-![letter](./images/models-epist.png)
+![letter](./images/models-letter.png)
 
-## Codicology
+## Correspondents
+
+![correspondent](./images/models-correspondent.png)
+
+## Poetic Texts
+
+![text](./images/models-text.png)
+
+## Manuscripts
 
 ![manuscript](./images/models-ms.png)
+
+## Hands
 
 The hand is somewhat at the crossing of the epistolographic and codicologic domains, as far as it defines a person, but as related to the handwriting found in a manuscript.
 
