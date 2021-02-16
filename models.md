@@ -2,6 +2,16 @@
 
 - [Cadmus Itinera Models](#cadmus-itinera-models)
   - [Common Models](#common-models)
+    - [Attachment](#attachment)
+    - [Chronotope](#chronotope)
+    - [CitedPerson](#citedperson)
+    - [DecoratedCount](#decoratedcount)
+    - [DecoratedId](#decoratedid)
+    - [DocReference](#docreference)
+    - [MsLocation](#mslocation)
+    - [PersonName](#personname)
+    - [PhysicalDimension](#physicaldimension)
+    - [PhysicalSize](#physicalsize)
   - [Letter Item](#letter-item)
   - [Correspondent Item](#correspondent-item)
   - [Poetic Text Item](#poetic-text-item)
@@ -58,51 +68,19 @@ About 30 part types are variously assigned to those items.
 
 ## Common Models
 
-Some commonly reused (sub-part) models are listed here:
+Some commonly reused (sub-part) models are listed here.
 
-- `DocReference`: a literary citation:
+### Attachment
 
-  - `tag` (`string`; thesaurus)
-  - `author`\* (`string`; thesaurus of authors/works like that illustrated in the general purpose [quotations fragment](https://github.com/vedph/cadmus_core/wiki/Philology-Parts#quotations)
-  - `work`\* (`string`; thesaurus as above)
-  - `location` (`string`; e.g. "2.34")
-  - `note` (`string`, 500)
+- `Attachment`:
+  - `type`\* (`string`; thesaurus: manuscript, work)
+  - `name`\* (`string`; if work, use thesaurus of works): not specified if unindentified.
+  - `portion` (`string`): the specification of the portion of the attachment. For instance, if the attachment is a work, this specifies the work's location (e.g. Aen. 1.13-2.26).
+  - `note`: you can use this when the object is not identified to provide an informal description.
 
-- `PersonName`: a personal name:
-
-  - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
-  - `tag` (`string`, optionally from thesaurus): optional tag used to group names, typically used when a person has several names.
-  - `parts`\* (`PersonNamePart[]`):
-    - `type`\* (`string`, thesaurus): e.g. first name, last name, etc. Types are not unique in a name: for instance, you might have a person with 2 first names.
-    - `value`\* (`string`)
-
-- `CitedPerson`: a person cited in a literary source:
-
-  - `name` (`PersonName`)
-  - `ids` (`DecoratedId[]`)
-
-- `MsLocation`: a location in a manuscript:
-
-  - `n`\* (`number`): sheet number.
-  - `r` (`bool`): true if Roman number.
-  - `v` (`number`): 0=unspecified, 1=recto, 2=verso, 3=both recto and verso.
-  - `l` (`number`): line number.
-
-- `DecoratedCount`:
-
-  - `id`
-  - `value`
-  - `note`
-
-- `DecoratedId`:
-
-  - `id`
-  - `rank`: a numeric rank to sort identifications in their order of probability. For a single identification, just leave the rank value equal (to 0). Otherwise, use 1=highest probability, 2=lower than 1, and so on.
-  - `tag`
-  - `sources` (`DocReference[]`)
+### Chronotope
 
 - `Chronotope`:
-
   - `tag`\* (`string`)
   - `place`\* (`string`)
   - `isPlaceDubious` (`boolean`)
@@ -112,20 +90,63 @@ Some commonly reused (sub-part) models are listed here:
 
 Note that here and in other parts the _place just corresponds to a conventional name_ (e.g. `Napoli`). This is not a full-fledged geographic model, but just a name; including data like coordinates here would not be an option, because this would imply duplicating (i.e. re-entering and re-storing) them wherever the same name occurs. Rather, coordinates will be later automatically deduced from the name using a geolocation service like Google. We must thus ensure that the place name can be located without issues (eventually by enriching our geolocation request with restrictions, e.g. "in Italy" or the like).
 
-- `Attachment`:
+### CitedPerson
 
-  - `type`\* (`string`; thesaurus: manuscript, work)
-  - `name`\* (`string`; if work, use thesaurus of works): not specified if unindentified.
-  - `portion` (`string`): the specification of the portion of the attachment. For instance, if the attachment is a work, this specifies the work's location (e.g. Aen. 1.13-2.26).
-  - `note`: you can use this when the object is not identified to provide an informal description.
+- `CitedPerson`: a person cited in a literary source:
+  - `name` (`PersonName`)
+  - `ids` (`DecoratedId[]`)
 
-Existing sub-models:
+### DecoratedCount
+
+- `DecoratedCount`:
+  - `id`
+  - `value`
+  - `note`
+
+### DecoratedId
+
+- `DecoratedId`:
+  - `id`
+  - `rank`: a numeric rank to sort identifications in their order of probability. For a single identification, just leave the rank value equal (to 0). Otherwise, use 1=highest probability, 2=lower than 1, and so on.
+  - `tag`
+  - `sources` (`DocReference[]`)
+
+### DocReference
+
+- `DocReference`: a literary citation:
+  - `tag` (`string`; thesaurus)
+  - `author`\* (`string`; thesaurus of authors/works like that illustrated in the general purpose [quotations fragment](https://github.com/vedph/cadmus_core/wiki/Philology-Parts#quotations)
+  - `work`\* (`string`; thesaurus as above)
+  - `location` (`string`; e.g. "2.34")
+  - `note` (`string`, 500)
+
+### MsLocation
+
+- `MsLocation`: a location in a manuscript:
+  - `n`\* (`number`): sheet number.
+  - `r` (`bool`): true if Roman number.
+  - `v` (`number`): 0=unspecified, 1=recto, 2=verso, 3=both recto and verso.
+  - `l` (`number`): line number.
+
+### PersonName
+
+- `PersonName`: a personal name:
+  - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
+  - `tag` (`string`, optionally from thesaurus): optional tag used to group names, typically used when a person has several names.
+  - `parts`\* (`PersonNamePart[]`):
+    - `type`\* (`string`, thesaurus): e.g. first name, last name, etc. Types are not unique in a name: for instance, you might have a person with 2 first names.
+    - `value`\* (`string`)
+
+### PhysicalDimension
+
+This and the following sub-models come from the general Cadmus parts.
 
 - `PhysicalDimension`:
-
   - `tag` (`string`)
   - `value`\* (`number`, decimal)
   - `unit`\* (`string`, thesaurus)
+
+### PhysicalSize
 
 - `PhysicalSize`:
   - `tag` (`string`)
@@ -233,9 +254,9 @@ Spatial and temporal coordinates for a letter or a related poetic text.
 ### CitedPersonsPart
 
 - `persons` (`CitedPerson[]`):
+  - `name` (`PersonName`)
   - `ids` (`DecoratedId[]`)
   - `sources` (`DocReference[]`)
-  - `name` (`PersonName`)
 
 ### CorrDedicationsPart
 
@@ -272,7 +293,7 @@ Exchanges from the reference author to the correspondent, or vice-versa.
     - `id` (`string`): the participant ID. This should refer to a person part.
     - `tag` (`string`, thesaurus): the role of the participant (e.g. destinatario, latore...).
   - `sources` (`DocReference[]`)
-  - `attachments` (`EpistAttachment[]`)
+  - `attachments` (`Attachment[]`)
 
 ### DocReferencesPart
 
@@ -451,7 +472,7 @@ Formerly `MsDimensionsPart`.
 - `layouts` (`MsLayout[]`):
   - `sample`\* (`MsLocation`): the sheet used as the sample for taking measurements and counts.
   - `dimensions` (`PhysicalDimension[]`): any number of measurements taken for any kind of measurable thing in the manuscript. TODO: use formula for entering.
-  - `columnCount`'\* (`int`)
+  - `columnCount`\* (`int`)
   - `rulingTechnique` (`string`, thesaurus)
   - `counts` (`DecoratedCount[]`): any number of counts. This allows entering any number of counts with different levels of precision. For instance, you might have `rowMinCount`, `rowMaxCount`, `lineCount`, `approxLineCount`, `lineMinCount`, `lineMaxCount`, `prickCount`, etc. It also allows descriptions for properties like columns, direction, blanks, ruling, execution, etc., eventually with a count (which might represent an average, or the most frequent value, etc.).
 
