@@ -487,9 +487,9 @@ For reference, This is the old `MsDecoration` model:
 
 ### MsHistoryPart
 
-- `provenances`\* (GeoAddress[], at least 1; in chronological order):
-  - area\* (`string`)
-  - address (`string`)
+- `provenances`\* (`GeoAddress[]`, at least 1; in chronological order):
+  - `area`\* (`string`)
+  - `address` (`string`)
 - `history`\* (`string`, MD, 5000)
 - `persons` (`MsHistoryPerson[]`):
   - `id` (`string`)
