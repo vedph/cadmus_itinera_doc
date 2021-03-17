@@ -10,14 +10,12 @@
 
 ## Items
 
-The Cadmus data model for the _Itinera_ project includes 5 item types:
+The Cadmus data model for the _Itinera_ project includes 4 item types:
 
 - *letters*: data about letters;
 - *correspondents* of the letters;
 - *poetic texts* related to the letters;
 - *manuscripts*.
-
-Of these models, letter, correspondent, and poetic text belong to the epistolography domain; manuscript and hands to the codicology domain.
 
 ![items](./images/models-items.png)
 
