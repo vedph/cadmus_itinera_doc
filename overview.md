@@ -1,5 +1,13 @@
 # Itinera Data Architecture Overview
 
+- [Itinera Data Architecture Overview](#itinera-data-architecture-overview)
+  - [Items](#items)
+  - [Letters](#letters)
+  - [Correspondents](#correspondents)
+  - [Poetic Texts](#poetic-texts)
+  - [Manuscripts](#manuscripts)
+  - [Bibliography](#bibliography)
+
 ## Items
 
 The Cadmus data model for the _Itinera_ project includes 5 item types:
@@ -28,12 +36,6 @@ Of these models, letter, correspondent, and poetic text belong to the epistologr
 ## Manuscripts
 
 ![manuscript](./images/models-ms.png)
-
-## Items and Parts
-
-Items and parts can be sketched in this picture:
-
-![items and parts](./images/items-n-parts.png)
 
 ## Bibliography
 
