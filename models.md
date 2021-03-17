@@ -5,6 +5,7 @@
     - [Attachment](#attachment)
     - [Chronotope](#chronotope)
     - [CitedPerson](#citedperson)
+    - [RankedCitedPerson](#rankedcitedperson)
     - [DecoratedCount](#decoratedcount)
     - [DecoratedId](#decoratedid)
     - [DocReference](#docreference)
@@ -16,16 +17,14 @@
   - [Correspondent Item](#correspondent-item)
   - [Poetic Text Item](#poetic-text-item)
   - [Manuscript Item](#manuscript-item)
-  - [Hand Item](#hand-item)
   - [Parts](#parts)
     - [AttachmentsPart](#attachmentspart)
     - [ChronotopicsPart](#chronotopicspart)
     - [CitedPersonsPart](#citedpersonspart)
-    - [CorrDedicationsPart](#corrdedicationspart)
-    - [CorrPseudonymsPart](#corrpseudonymspart)
+    - [LitDedicationsPart](#litdedicationspart)
     - [CorrExchangesPart](#correxchangespart)
     - [DocReferencesPart](#docreferencespart)
-    - [LetterInfoPart](#letterinfopart)
+    - [SerialTextInfoPart](#serialtextinfopart)
     - [MsBindingPart](#msbindingpart)
     - [MsContentLociPart](#mscontentlocipart)
     - [MsContentsPart](#mscontentspart)
@@ -45,7 +44,6 @@
     - [PersonEventsPart](#personeventspart)
     - [PersonPart](#personpart)
     - [PersonHandPart](#personhandpart)
-    - [PoeticTextInfoPart](#poetictextinfopart)
 
 In what follows I adopt these conventions:
 
@@ -56,13 +54,12 @@ In what follows I adopt these conventions:
 
 In general, this architecture is targeted to modular content creation. The usual flow is creating highly structured and modular data using Cadmus, and then automatically build a relational DB from them, optimized for the search types we're going to support, plus LOD "extractions" for connecting the relevant parts of our data to the semantic web.
 
-There are 5 items in the Cadmus DB:
+There are 4 items in the Cadmus DB:
 
 - *letters*: data about letters (not their text);
 - *correspondents* of the letters;
 - *poetic texts* related to the letters;
-- *manuscripts*;
-- manuscript *hands*.
+- *manuscripts*.
 
 About 30 part types are variously assigned to those items.
 
@@ -73,6 +70,10 @@ Some commonly reused (sub-part) models are listed here.
 ### Attachment
 
 - `Attachment`:
+  - `id` (`string`): an arbitrary ID.
+  - `externalIds` (`string[]`)
+  - `isLost` (`boolean`)
+  - `isUnknown` (`boolean`)
   - `type`\* (`string`; thesaurus: manuscript, work)
   - `name`\* (`string`; if work, use thesaurus of works): not specified if unindentified.
   - `portion` (`string`): the specification of the portion of the attachment. For instance, if the attachment is a work, this specifies the work's location (e.g. Aen. 1.13-2.26).
@@ -82,7 +83,7 @@ Some commonly reused (sub-part) models are listed here.
 
 - `Chronotope`:
   - `tag`\* (`string`)
-  - `place`\* (`string`)
+  - `place` (`string`)
   - `isPlaceDubious` (`boolean`)
   - `date`\* (`HistoricalDate`)
   - `textDate` (`string`): the attested text form of the date. It might also be different from the reconstructed one.
@@ -95,6 +96,10 @@ Note that here and in other parts the _place just corresponds to a conventional 
 - `CitedPerson`: a person cited in a literary source:
   - `name` (`PersonName`)
   - `ids` (`DecoratedId[]`)
+
+### RankedCitedPerson
+
+Equal to `CitedPerson` plus a `rank` (`short`).
 
 ### DecoratedCount
 
@@ -173,9 +178,8 @@ The letter item has 7 part types:
 
 The correspondent item has 9 part types:
 
-- `CorrDedicationsPart`: dedications involving the correspondent, i.e. by the correspondent to the reference author, or vice-versa (`it.vedph.itinera.corr-dedications`).
+- `LitDedicationsPart`: dedications involving the correspondent, i.e. by the correspondent to the reference author, or vice-versa (`it.vedph.itinera.lit-dedications`).
 - `CorrExchangesPart`: exchanges of works, manuscripts or other objects involving the correspondent (`it.vedph.itinera.corr-exchanges`).
-- `CorrPseudonymsPart`: pseudonyms for the correspondent used by the reference author, or vice-versa (`it.vedph.itinera.corr-pseudonyms`).
 - `DocReferencesPart`: references made by author; references made by correspondent. A role distinguishes the two usages (`it.vedph.itinera.doc-references` with roles `auth` and `corr`).
 - `ExtBibliographyPart`: bibliography (`it.vedph.ext-bibliography`).
 - `NotePart`: general purpose note (`it.vedph.note`).
@@ -202,7 +206,7 @@ The poetic text item has 6 parts:
 - `CitedPersonsPart`: persons cited in the text (`it.vedph.itinera.cited-persons`).
 - `ExtBibliographyPart`: bibliography (`it.vedph.ext-bibliography`).
 - `NotePart`: general purpose note (`it.vedph.note`).
-- `PoeticTextInfoPart`\*: essential metadata about a text.
+- `SerialTextInfoPart`\*: essential metadata about a text.
 
 ## Manuscript Item
 
@@ -228,15 +232,6 @@ The manuscript item has 20 parts:
 - `MsWatermarksPart`: watermarks (`it.vedph.itinera.ms-watermarks`).
 - `NotePart`: general purpose note (`it.vedph.note`).
 
-## Hand Item
-
-The person's hand part has 4 parts:
-
-- `ExtBibliographyPart`: bibliography (`it.vedph.ext-bibliography`).
-- `NotePart`: general purpose note (`it.vedph.note`).
-- `PersonHand`\*: hand's description (`it.vedph.itinera.person-hand`).
-- `PersonPart`: biographic data (`it.vedph.itinera.person`).
-
 ## Parts
 
 ### AttachmentsPart
@@ -258,25 +253,15 @@ Spatial and temporal coordinates for a letter or a related poetic text.
   - `ids` (`DecoratedId[]`)
   - `sources` (`DocReference[]`)
 
-### CorrDedicationsPart
+### LitDedicationsPart
 
-Dedications made by the author to the correspondent, or vice-versa.
+Literary dedications.
 
 - `dedications` (`LitDedication[]`):
   - `title`\* (`string`)
   - `date` (`HistoricalDate`)
   - `dateSent` (`HistoricalDate`)
-  - `isByAuthor` (`boolean`): the dedication is by the author to the correspondent, or vice-versa. Given that the focus is on the author, the dedication by the author to the correspondent can be the marked case of the binary opposition.
-  - `sources` (`DocReference[]`)
-
-### CorrPseudonymsPart
-
-Pseudonyms used by the reference author to address the correspondent, or vice-versa.
-
-- `pseudonyms` (`CorrPseudonym[]`):
-  - `language`\* (`string`, ISO639-3)
-  - `value`\* (`string`)
-  - `isAuthor` (`boolean`): true if the alias targets the reference author; false if it targets the correspondent.
+  - `participants` (`DecoratedId[]`): the subjects partecipating in the dedication (e.g. dedicator, dedicatee, etc.).
   - `sources` (`DocReference[]`)
 
 ### CorrExchangesPart
@@ -287,8 +272,7 @@ Exchanges from the reference author to the correspondent, or vice-versa.
   - `isDubious` (`boolean`)
   - `isIndirect` (`boolean`)
   - `isFromParticipant` (`boolean`): the "direction" of the exchange: true when the attachment is coming from 1 or more of the participants; false when it is coming from the correspondent (represented by the container item) to the participants.
-  - `from`\* (`Chronotope`)
-  - `to`\* (`Chronotope`)
+  - `chronotopes`\* (`Chronotope[]`): from, to, and other chronotopic indications.
   - `participants` (`DecoratedId[]`):
     - `id` (`string`): the participant ID. This should refer to a person part.
     - `tag` (`string`, thesaurus): the role of the participant (e.g. destinatario, latore...).
@@ -306,15 +290,22 @@ A list of document references (literary citations, short bibliographic reference
   - `location`: the work's location (e.g. `12.34`). For archive documents, it can be their location in the archive (e.g. a signature). For bibliographic references, it's usually a page number or other means of locating some passage.
   - `note`: a generic annotation.
 
-### LetterInfoPart
+### SerialTextInfoPart
 
-- `letterId`\* (`string`)
+A text being part of a series of exchanges, like e.g. a letter.
+
+- `textId`\* (`string`)
 - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
 - `subject`\* (`string`, MD, 500)
-- `authorId`\* (`string`)
+- `genre` (`string`, thesaurus)
+- `verse` (`string`, thesaurus)
+- `rhyme` (`string`): rhyme scheme.
+- `authors`\* (`RankedCitedPerson[]`): the rank for person is there to express the fact that the attribution of the text to the identified person has a certain level of confidence.
 - `headings` (`string[]`): zero or more headings found in the manuscript text or its variants.
 - `recipients`\* (`DecoratedId[]`): recipient(s), at least 1.
 - `replyingTo` (`DecoratedId[]`)
+- `related` (`DocReference[]`)
+- `isReceived` (`boolean`)
 - `note` (`string`, MD, max 1000): a general-purpose free text note to hold "varia".
 
 ### MsBindingPart
@@ -341,9 +332,10 @@ Loci critici.
   - `author` (`string`)
   - `claimedAuthor` (`string`)
   - `work`\* (`string`)
-  - `start` (`MsLocation`)
-  - `end` (`MsLocation`)
+  - `ranges` (`MsLocationRange[]`)
   - `state` (`string`, thesaurus)
+  - `incipit` (string)
+  - `explicit` (string)
   - `note` (`string`)
   - `units` (`MsContentUnit[]`):
     - `label`\* (string)
@@ -374,33 +366,80 @@ Loci critici.
   - `label`\* (`string`)
   - `start`\* (`MsLocation`)
   - `end`\* (`MsLocation`)
-  - `era` (`string`, thesaurus)
   - `date` (`HistoricalDate`)
 
 ### MsDecorationsPart
 
 - `decorations` (`MsDecoration[]`):
-  - `type`\* (`string`, thesaurus)
-  - `subject` (`string`)
-  - `colors`\* (`string[]`; 0-N picks from a thesaurus)
+- `id`\* (`string`): inner ID
+- `name`\* (`string`)
+- `type`\* (`string`, thesaurus): type of element, see below.
+- `flags` (`string[]`; 0-N picks from a thesaurus: original, unitary, complete, has tips, etc.)
+- `place` (`string`): geographic place.
+- `artist` (`MsDecorationArtist`):
+- `note` (`string`)
+- `references` (`DocReference[]`)
+- `elements` (`MsDecorationElement[]`):
+  - `key` (`string`): the key used for this element when it represents also a parent of other elements. Its scope is limited to the part.
+  - `parentKey` (`string`): used to group sub-elements under an element, it is the `key` of the parent element. Its scope is limited to the part.
+  - `type`\* (`string`, `thesaurus`): the element's type.
+  - `flags`\* (`string[]`; 0-N picks from a thesaurus: original, unitary, complete, has tips, etc.)
+  - `ranges`\* (`MsLocationRange[]`)
+  - `typologies` (`string[]`; 0-N picks from a thesaurus); as typologies vary too much according to type, organize them into sub-sets, and let the UI automatically pick the one corresponding to the type.
+  - `subject` (`string`): the decoration subject when applicable. For letters, it might be the letter itself.
+  - `colors` (`string[]`; 0-N picks from a thesaurus)
+  - `gilding` (`string`, thesaurus): gilding type.
+  - `technique` (`string`, thesaurus)
   - `tool` (`string`, thesaurus)
-  - `start` (`MsLocation`)
-  - `end` (`MsLocation`)
-  - `position` (`string`, thesaurus)
-  - `size` (`PhysicalSize`)
+  - `position` (`string`, thesaurus): relative to the page.
+  - `lineHeight` (`number`): height measured in lines.
+  - `textRelation` (`string`): relationship with text.
   - `description` (`string`, MD, 1000)
-  - `textRelation` (`string`, 1000)
-  - `guideLetters` (`MsGuideLetter[]`):
-    - `position`\* (`string`, thesaurus)
-    - `morphology` (`string`)
   - `imageId` (`string`): this is an ID representing the prefix for all the images representing the decoration; e.g. if it is `ae`, we would expect any number of image resources named after it plus a conventional numbering, like `ae00001`, `ae00002`, etc.
-  - `artist` (`MsDecorationArtist`):
-    - `type`\* (`string`, thesaurus)
-    - `id`\* (`string`): inner ID
-    - `name`\* (`string`)
-    - `note` (`string`)
-    - `sources` (`DocReference[]`)
+  - `note` (`string`).
+
+Thesaurus for element types:
+
+- pagina incipitaria
+- pagina decorata
+- illustrazione
+- ornamentazione
+- ornamentazione - elemento
+- iniziali - semplici
+- iniziali - semplici - lettera
+- iniziali - filigranate
+- iniziali - filigranate - lettera
+- iniziali - ornate
+- iniziali - ornate - lettera
+- iniziali - con figura
+- iniziali - con figura - lettera
+- paragrafematici
+- spazi bianchi
+- illustrazioni estemporanee
+
+For reference, This is the old `MsDecoration` model:
+
+- `type`\* (`string`, thesaurus)
+- `subject` (`string`)
+- `colors`\* (`string[]`; 0-N picks from a thesaurus)
+- `tool` (`string`, thesaurus)
+- `start` (`MsLocation`)
+- `end` (`MsLocation`)
+- `position` (`string`, thesaurus)
+- `size` (`PhysicalSize`)
+- `description` (`string`, MD, 1000)
+- `textRelation` (`string`, 1000)
+- `guideLetters` (`MsGuideLetter[]`):
+  - `position`\* (`string`, thesaurus)
+  - `morphology` (`string`)
+- `imageId` (`string`): this is an ID representing the prefix for all the images representing the decoration; e.g. if it is `ae`, we would expect any number of image resources named after it plus a conventional numbering, like `ae00001`, `ae00002`, etc.
+- `artist` (`MsDecorationArtist`):
+  - `type`\* (`string`, thesaurus)
+  - `id`\* (`string`): inner ID
+  - `name`\* (`string`)
   - `note` (`string`)
+  - `sources` (`DocReference[]`)
+- `note` (`string`)
 
 ### MsHandsPart
 
@@ -419,7 +458,7 @@ Loci critici.
     - `end` (`MsLocation`)
   - `extentNote` (`string`)
   - `rubrications` (`MsRubrication[]`):
-    - `locations` (`MsLocation[]`)
+    - `ranges` (`MsLocationRange[]`)
     - `type`\* (`string`, thesaurus)
     - `description` (`string`)
     - `issues` (`string`)
@@ -473,7 +512,27 @@ Formerly `MsDimensionsPart`.
   - `dimensions` (`PhysicalDimension[]`): any number of measurements taken for any kind of measurable thing in the manuscript. TODO: use formula for entering.
   - `columnCount`\* (`int`)
   - `rulingTechnique` (`string`, thesaurus)
+  - `derolez` (`string`; not a thesaurus)
+  - `priking` (`string`)
   - `counts` (`DecoratedCount[]`): any number of counts. This allows entering any number of counts with different levels of precision. For instance, you might have `rowMinCount`, `rowMaxCount`, `lineCount`, `approxLineCount`, `lineMinCount`, `lineMaxCount`, `prickCount`, etc. It also allows descriptions for properties like columns, direction, blanks, ruling, execution, etc., eventually with a count (which might represent an average, or the most frequent value, etc.).
+
+In the web editor, we can use a formula to quickly enter a set of dimensions. The formula has these parts:
+
+1. `N x N`: `height` x `width`.
+2. `= N`: `top-margin`.
+3. `[N]`: `write-area-height`.
+4. `N x N`: `bottom-margin` x `inner-margin`.
+5. `[N/ N (N)?]+`: for each column: `col-N-head-width`, `col-N-width`, `col-N-gap` (if this isn't the last column).
+6. `N`: external margin.
+
+For instance, the formula `250 × 170 = 30 [180] 40 × 15 [5/ 52 (20) 5/ 53] 20` represents these dimensions:
+
+1. `height`=250, `width`=170.
+2. `top-margin`=30.
+3. `write-area-height`=180.
+4. `bottom-margin`=40, `inner-margin`=15.
+5. `col-1-head-width`=5, `col-1-width`=52, `col-1-gap`=20; `col-2-head-width`=5, `col-2-width`=53.
+6. `ext-margin`=20 (external margin).
 
 ### MsMaterialDscPart
 
@@ -589,10 +648,7 @@ This contains the ID and biographic data of any person (the part role ID makes t
 - `externalIds` (`string[]`): optional IDs in external resources which can be mapped to this correspondent.
 - `names`\* (`PersonName[]`): at least 1 name.
 - `sex` (`string`: `m`, `f`, or null if unknown)
-- `birthDate` (`HistoricalDate`)
-- `birthPlace` (`string`)
-- `deathDate` (`HistoricalDate`)
-- `deathPlace` (`string`)
+- `chronotopes` (`Chronotope[]`): chronotopic indications, usually for birth and/or death.
 - `bio` (`string`, MD, 6000)
 
 ### PersonHandPart
@@ -600,17 +656,3 @@ This contains the ID and biographic data of any person (the part role ID makes t
 - `personId` (`string`): a unique, arbitrary internal ID assigned to the person whose hand is described here.
 - `job` (`string`, thesaurus)
 - `others` (`DocReference[]`)
-
-### PoeticTextInfoPart
-
-- `textId`\* (`string`)
-- `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
-- `subject`\* (`string`, MD, 500)
-- `headings` (`string[]`)
-- `metre` (`string`, thesaurus)
-- `recipients` (`DecoratedId[]`)
-- `replyingTo` (`DecoratedId[]`)
-- `authors` (`CitedPerson[]`)
-- `related` (`DocReference[]`): related text passages.
-
-Note: the item's title is the poetic text's title, so there is no need to duplicate it in the info part.
