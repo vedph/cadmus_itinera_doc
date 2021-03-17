@@ -24,6 +24,7 @@
     - [LitDedicationsPart](#litdedicationspart)
     - [CorrExchangesPart](#correxchangespart)
     - [DocReferencesPart](#docreferencespart)
+    - [ExtBibliographyPart](#extbibliographypart)
     - [SerialTextInfoPart](#serialtextinfopart)
     - [MsBindingPart](#msbindingpart)
     - [MsContentLociPart](#mscontentlocipart)
@@ -72,11 +73,11 @@ Some commonly reused (sub-part) models are listed here.
 - `Attachment`:
   - `id` (`string`): an arbitrary ID.
   - `externalIds` (`string[]`)
-  - `isLost` (`boolean`)
-  - `isUnknown` (`boolean`)
   - `type`\* (`string`; thesaurus: manuscript, work)
   - `name`\* (`string`; if work, use thesaurus of works): not specified if unindentified.
   - `portion` (`string`): the specification of the portion of the attachment. For instance, if the attachment is a work, this specifies the work's location (e.g. Aen. 1.13-2.26).
+  - `isLost` (`boolean`)
+  - `isUnknown` (`boolean`)
   - `note`: you can use this when the object is not identified to provide an informal description.
 
 ### Chronotope
@@ -104,16 +105,16 @@ Equal to `CitedPerson` plus a `rank` (`short`).
 ### DecoratedCount
 
 - `DecoratedCount`:
-  - `id`
-  - `value`
-  - `note`
+  - `id` (`string`)
+  - `value` (`string`)
+  - `note` (`string`)
 
 ### DecoratedId
 
 - `DecoratedId`:
-  - `id`
+  - `id` (`string`)
   - `rank`: a numeric rank to sort identifications in their order of probability. For a single identification, just leave the rank value equal (to 0). Otherwise, use 1=highest probability, 2=lower than 1, and so on.
-  - `tag`
+  - `tag` (`string`)
   - `sources` (`DocReference[]`)
 
 ### DocReference
@@ -171,17 +172,17 @@ The letter item has 7 part types:
 - `CitedPersonsPart`: persons cited in the letter (`it.vedph.itinera.cited-persons`).
 - `DocReferencesPart`: references to documents (`it.vedph.itinera.doc-references`).
 - `ExtBibliographyPart`: bibliography (`it.vedph.ext-bibliography`).
-- `LetterInfoPart`\*: essential metadata about a letter (`it.vedph.itinera.letter-info`).
 - `NotePart`: general purpose note (`it.vedph.note`).
+- `SerialTextInfoPart`\*: essential metadata about a letter (`it.vedph.itinera.letter-info`).
 
 ## Correspondent Item
 
 The correspondent item has 9 part types:
 
-- `LitDedicationsPart`: dedications involving the correspondent, i.e. by the correspondent to the reference author, or vice-versa (`it.vedph.itinera.lit-dedications`).
 - `CorrExchangesPart`: exchanges of works, manuscripts or other objects involving the correspondent (`it.vedph.itinera.corr-exchanges`).
-- `DocReferencesPart`: references made by author; references made by correspondent. A role distinguishes the two usages (`it.vedph.itinera.doc-references` with roles `auth` and `corr`).
+- `DocReferencesPart`: references made by author or references made by correspondent. A role distinguishes the two usages (`it.vedph.itinera.doc-references` with roles `auth` and `corr`).
 - `ExtBibliographyPart`: bibliography (`it.vedph.ext-bibliography`).
+- `LitDedicationsPart`: literary dedications (`it.vedph.itinera.lit-dedications`).
 - `NotePart`: general purpose note (`it.vedph.note`).
 - `PersonEventsPart`: events in a person's life (`it.vedph.itinera.person-events`).
 - `PersonPart`\*: biographic data (`it.vedph.itinera.person`).
@@ -289,6 +290,17 @@ A list of document references (literary citations, short bibliographic reference
   - `work`: the work ID (e.g. `Il.`). For archive documents, it can be the archive name. For bibliographic references, it's the modern work's title ID.
   - `location`: the work's location (e.g. `12.34`). For archive documents, it can be their location in the archive (e.g. a signature). For bibliographic references, it's usually a page number or other means of locating some passage.
   - `note`: a generic annotation.
+
+### ExtBibliographyPart
+
+External bibliography. This part establishes a link between its item and an external, read/write bibliographic repository.
+
+- `entries` (`ExtBibEntry[]`):
+  - `id` (`string`): the identifier for this entry. This is a GUID.
+  - `label` (`string`): a human-friendly label for this entry.
+  - `payload` (`string`): an optional payload, whose content depends on the external repository. In our case, this is internally used to distinguish between works and containers.
+  - `tag` (`string`): an optional tag assigned to this entry. Typically this is related to the reason for including this entry.
+  - `note` (`string`): an optional note about this entry.
 
 ### SerialTextInfoPart
 
