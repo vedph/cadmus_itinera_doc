@@ -5,7 +5,6 @@
     - [Attachment](#attachment)
     - [Chronotope](#chronotope)
     - [CitedPerson](#citedperson)
-    - [RankedCitedPerson](#rankedcitedperson)
     - [DecoratedCount](#decoratedcount)
     - [DecoratedId](#decoratedid)
     - [DocReference](#docreference)
@@ -97,10 +96,6 @@ Note that here and in other parts the _place just corresponds to a conventional 
 - `CitedPerson`: a person cited in a literary source:
   - `name` (`PersonName`)
   - `ids` (`DecoratedId[]`)
-
-### RankedCitedPerson
-
-Equal to `CitedPerson` plus a `rank` (`short`).
 
 ### DecoratedCount
 
@@ -312,7 +307,7 @@ A text being part of a series of exchanges, like e.g. a letter.
 - `genre` (`string`, thesaurus)
 - `verse` (`string`, thesaurus)
 - `rhyme` (`string`): rhyme scheme.
-- `authors`\* (`RankedCitedPerson[]`): the rank for person is there to express the fact that the attribution of the text to the identified person has a certain level of confidence.
+- `authors`\* (`CitedPerson[]`): the rank for person is used here to express the fact that the attribution of the text to the identified person has a certain level of confidence.
 - `headings` (`string[]`): zero or more headings found in the manuscript text or its variants.
 - `recipients`\* (`DecoratedId[]`): recipient(s), at least 1.
 - `replyingTo` (`DecoratedId[]`)
