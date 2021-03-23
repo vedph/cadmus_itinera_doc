@@ -95,7 +95,9 @@ Note that here and in other parts the _place just corresponds to a conventional 
 
 - `CitedPerson`: a person cited in a literary source:
   - `name` (`PersonName`)
+  - `rank` (`short`)
   - `ids` (`DecoratedId[]`)
+  - `sources` (`DocReference[]`)
 
 ### DecoratedCount
 
