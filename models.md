@@ -382,7 +382,6 @@ Loci critici.
 - `decorations` (`MsDecoration[]`):
 - `id`\* (`string`): inner ID
 - `name`\* (`string`)
-- `type`\* (`string`, thesaurus): type of element.
 - `flags` (`string[]`; 0-N picks from a thesaurus: original, unitary, complete, has tips, etc.)
 - `place` (`string`): geographic place.
 - `artist` (`MsDecorationArtist`):
