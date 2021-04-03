@@ -382,10 +382,15 @@ Loci critici.
 - `decorations` (`MsDecoration[]`):
 - `id`\* (`string`): inner ID
 - `name`\* (`string`)
-- `type`\* (`string`, thesaurus): type of element, see below.
+- `type`\* (`string`, thesaurus): type of element.
 - `flags` (`string[]`; 0-N picks from a thesaurus: original, unitary, complete, has tips, etc.)
 - `place` (`string`): geographic place.
 - `artist` (`MsDecorationArtist`):
+  - `type`\* (`string`)
+  - `id`\* (`string`)
+  - `name`\* (`string`)
+  - `note` (`string`)
+  - `sources` (`DocReference[]`)
 - `note` (`string`)
 - `references` (`DocReference[]`)
 - `elements` (`MsDecorationElement[]`):
@@ -406,25 +411,6 @@ Loci critici.
   - `description` (`string`, MD, 1000)
   - `imageId` (`string`): this is an ID representing the prefix for all the images representing the decoration; e.g. if it is `ae`, we would expect any number of image resources named after it plus a conventional numbering, like `ae00001`, `ae00002`, etc.
   - `note` (`string`).
-
-Thesaurus for element types:
-
-- pagina incipitaria
-- pagina decorata
-- illustrazione
-- ornamentazione
-- ornamentazione - elemento
-- iniziali - semplici
-- iniziali - semplici - lettera
-- iniziali - filigranate
-- iniziali - filigranate - lettera
-- iniziali - ornate
-- iniziali - ornate - lettera
-- iniziali - con figura
-- iniziali - con figura - lettera
-- paragrafematici
-- spazi bianchi
-- illustrazioni estemporanee
 
 For reference, This is the old `MsDecoration` model:
 
