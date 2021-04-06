@@ -26,9 +26,9 @@
     - [ExtBibliographyPart](#extbibliographypart)
     - [SerialTextInfoPart](#serialtextinfopart)
     - [MsBindingPart](#msbindingpart)
+    - [MsCatchwordsPart](#mscatchwordspart)
     - [MsContentLociPart](#mscontentlocipart)
     - [MsContentsPart](#mscontentspart)
-    - [MsCatchwordsPart](#mscatchwordspart)
     - [MsCompositionPart](#mscompositionpart)
     - [MsDecorationsPart](#msdecorationspart)
     - [MsHandsPart](#mshandspart)
@@ -43,7 +43,6 @@
     - [MsWatermarksPart](#mswatermarkspart)
     - [PersonEventsPart](#personeventspart)
     - [PersonPart](#personpart)
-    - [PersonHandPart](#personhandpart)
 
 In what follows I adopt these conventions:
 
@@ -56,10 +55,10 @@ In general, this architecture is targeted to modular content creation. The usual
 
 There are 4 items in the Cadmus DB:
 
-- *letters*: data about letters (not their text);
-- *correspondents* of the letters;
-- *poetic texts* related to the letters;
-- *manuscripts*.
+- _letters_: data about letters (not their text);
+- _correspondents_ of the letters;
+- _poetic texts_ related to the letters;
+- _manuscripts_.
 
 About 30 part types are variously assigned to those items.
 
@@ -72,7 +71,7 @@ Some commonly reused (sub-part) models are listed here.
 - `Attachment`:
   - `id` (`string`): an arbitrary ID.
   - `externalIds` (`string[]`)
-  - `type`\* (`string`; thesaurus: manuscript, work)
+  - `type`\* (`string`; thesaurus `epist-attachment-types`: manuscript, work)
   - `name`\* (`string`; if work, use thesaurus of works): not specified if unindentified.
   - `portion` (`string`): the specification of the portion of the attachment. For instance, if the attachment is a work, this specifies the work's location (e.g. Aen. 1.13-2.26).
   - `isLost` (`boolean`)
@@ -103,7 +102,7 @@ Note that here and in other parts the _place just corresponds to a conventional 
 
 - `DecoratedCount`:
   - `id` (`string`)
-  - `value` (`string`)
+  - `value` (`int`)
   - `note` (`string`)
 
 ### DecoratedId
@@ -117,27 +116,27 @@ Note that here and in other parts the _place just corresponds to a conventional 
 ### DocReference
 
 - `DocReference`: a literary citation:
-  - `tag` (`string`; thesaurus)
-  - `author`\* (`string`; thesaurus of authors/works like that illustrated in the general purpose [quotations fragment](https://github.com/vedph/cadmus_core/wiki/Philology-Parts#quotations)
-  - `work`\* (`string`; thesaurus as above)
+  - `tag` (`string`; thesaurus `doc-reference-tags`)
+  - `author`\* (`string`)
+  - `work`\* (`string`)
   - `location` (`string`; e.g. "2.34")
   - `note` (`string`, 500)
 
 ### MsLocation
 
 - `MsLocation`: a location in a manuscript:
-  - `n`\* (`number`): sheet number.
+  - `n`\* (`int`): sheet number.
   - `r` (`bool`): true if Roman number.
-  - `v` (`number`): 0=unspecified, 1=recto, 2=verso, 3=both recto and verso.
-  - `l` (`number`): line number.
+  - `s` (`string`): the suffix, with 0-2 lowercase letters (e.g. `r`=recto, `v`=verso, `rv`=both).
+  - `l` (`int`): line number.
 
 ### PersonName
 
 - `PersonName`: a personal name:
-  - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
-  - `tag` (`string`, optionally from thesaurus): optional tag used to group names, typically used when a person has several names.
+  - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus `person-name-languages`)
+  - `tag` (`string`, thesaurus `person-name-tags`): optional tag used to group names, typically used when a person has several names.
   - `parts`\* (`PersonNamePart[]`):
-    - `type`\* (`string`, thesaurus): e.g. first name, last name, etc. Types are not unique in a name: for instance, you might have a person with 2 first names.
+    - `type`\* (`string`, thesaurus `person-name-types`): e.g. first name, last name, etc. Types are not unique in a name: for instance, you might have a person with 2 first names.
     - `value`\* (`string`)
 
 ### PhysicalDimension
@@ -147,7 +146,7 @@ This and the following sub-models come from the general Cadmus parts.
 - `PhysicalDimension`:
   - `tag` (`string`)
   - `value`\* (`number`, decimal)
-  - `unit`\* (`string`, thesaurus)
+  - `unit`\* (`string`, thesaurus `physical-size-units`)
 
 ### PhysicalSize
 
@@ -238,11 +237,15 @@ Attachments linked to a letter or poetic text.
 
 - `attachments` (`Attachment[]`)
 
+Thesauri: `epist-attachment-types`.
+
 ### ChronotopicsPart
 
 Spatial and temporal coordinates for a letter or a related poetic text.
 
 - chronotopes (`Chronotope[]`)
+
+Thesauri: `chronotope-tags`, `doc-reference-tags`.
 
 ### CitedPersonsPart
 
@@ -250,6 +253,8 @@ Spatial and temporal coordinates for a letter or a related poetic text.
   - `name` (`PersonName`)
   - `ids` (`DecoratedId[]`)
   - `sources` (`DocReference[]`)
+
+Thesauri: `person-name-languages`, `person-name-tags`, `person-name-types`, `person-id-tags`.
 
 ### LitDedicationsPart
 
@@ -261,6 +266,8 @@ Literary dedications.
   - `dateSent` (`HistoricalDate`)
   - `participants` (`DecoratedId[]`): the subjects partecipating in the dedication (e.g. dedicator, dedicatee, etc.).
   - `sources` (`DocReference[]`)
+
+Thesauri: `doc-reference-tags`.
 
 ### CorrExchangesPart
 
@@ -277,6 +284,8 @@ Exchanges from the reference author to the correspondent, or vice-versa.
   - `sources` (`DocReference[]`)
   - `attachments` (`Attachment[]`)
 
+Thesauri: `doc-reference-tags`, `chronotope-tags`, `epist-attachment-types`.
+
 ### DocReferencesPart
 
 A list of document references (literary citations, short bibliographic references, etc.).
@@ -287,6 +296,8 @@ A list of document references (literary citations, short bibliographic reference
   - `work`: the work ID (e.g. `Il.`). For archive documents, it can be the archive name. For bibliographic references, it's the modern work's title ID.
   - `location`: the work's location (e.g. `12.34`). For archive documents, it can be their location in the archive (e.g. a signature). For bibliographic references, it's usually a page number or other means of locating some passage.
   - `note`: a generic annotation.
+
+Thesauri: `doc-reference-tags`.
 
 ### ExtBibliographyPart
 
@@ -299,6 +310,8 @@ External bibliography. This part establishes a link between its item and an exte
   - `tag` (`string`): an optional tag assigned to this entry. Typically this is related to the reason for including this entry.
   - `note` (`string`): an optional note about this entry.
 
+Thesauri: `ext-biblio-author-roles`, `ext-biblio-languages`, `ext-biblio-work-tags`.
+
 ### SerialTextInfoPart
 
 A text being part of a series of exchanges, like e.g. a letter.
@@ -306,8 +319,8 @@ A text being part of a series of exchanges, like e.g. a letter.
 - `textId`\* (`string`)
 - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
 - `subject`\* (`string`, MD, 500)
-- `genre` (`string`, thesaurus)
-- `verse` (`string`, thesaurus)
+- `genre` (`string`, thesaurus `serial-text-genres`)
+- `verse` (`string`, thesaurus `serial-text-verses`)
 - `rhyme` (`string`): rhyme scheme.
 - `authors`\* (`CitedPerson[]`): the rank for person is used here to express the fact that the attribution of the text to the identified person has a certain level of confidence.
 - `headings` (`string[]`): zero or more headings found in the manuscript text or its variants.
@@ -317,13 +330,28 @@ A text being part of a series of exchanges, like e.g. a letter.
 - `isReceived` (`boolean`)
 - `note` (`string`, MD, max 1000): a general-purpose free text note to hold "varia".
 
+Thesauri: `serial-text-languages`, `doc-reference-tags`, `serial-text-genres`, `serial-text-verses`, `person-name-tags`, `person-name-types`, `person-id-tags`.
+
 ### MsBindingPart
 
 - `century`\* (`number`)
 - `description`\* (`string`, MD, 5000)
-- `coverMaterial`\* (`string`, thesaurus)
-- `supportMaterial`\* (`string`, thesaurus)
+- `coverMaterial`\* (`string`, thesaurus `ms-binding-materials`)
+- `supportMaterial`\* (`string`, thesaurus `ms-binding-support-materials`)
 - `size` (`PhysicalSize`)
+
+Thesauri: `ms-binding-materials`, `ms-binding-support-materials`, `physical-size-tags`, `physical-dimension-tags`, `physical-size-units` (required).
+
+### MsCatchwordsPart
+
+- `catchwords` (`MsCatchword[]`):
+  - `position`\* (`string`, thesaurus `ms-catchword-positions`)
+  - `isVertical` (`boolean`)
+  - `decoration` (`string`)
+  - `register` (`string`): numerazioni/segnature a registro
+  - `note` (`string`)
+
+Thesauri: `ms-catchword-positions`.
 
 ### MsContentLociPart
 
@@ -335,6 +363,8 @@ Loci critici.
   - `refSheet` (`MsLocation`)
   - `imageId` (`string`)
 
+Thesauri: none.
+
 ### MsContentsPart
 
 - `contents` (`MsContent[]`):
@@ -342,7 +372,7 @@ Loci critici.
   - `claimedAuthor` (`string`)
   - `work`\* (`string`)
   - `ranges` (`MsLocationRange[]`)
-  - `state` (`string`, thesaurus)
+  - `state` (`string`, thesaurus `ms-content-states`)
   - `incipit` (string)
   - `explicit` (string)
   - `note` (`string`)
@@ -351,14 +381,7 @@ Loci critici.
     - `incipit` (string)
     - `explicit` (string)
 
-### MsCatchwordsPart
-
-- `catchwords` (`MsCatchword[]`):
-  - `position`\* (`string`, thesaurus)
-  - `isVertical` (`boolean`)
-  - `decoration` (`string`)
-  - `register` (`string`): numerazioni/segnature a registro
-  - `note` (`string`)
+Thesauri: `ms-content-states`.
 
 ### MsCompositionPart
 
@@ -366,7 +389,7 @@ Loci critici.
 - `guardSheetCount` (`number`)
 - `guardSheets` (`MsGuardSheet[]`):
   - `isBack` (`boolean`)
-  - `material` (`string`, thesaurus)
+  - `material` (`string`, thesaurus `ms-materials`)
   - `location` (`MsLocation`)
   - `date` (`HistoricalDate`)
   - `note` (`string`)
@@ -377,15 +400,17 @@ Loci critici.
   - `end`\* (`MsLocation`)
   - `date` (`HistoricalDate`)
 
+Thesauri: `ms-materials`.
+
 ### MsDecorationsPart
 
 - `decorations` (`MsDecoration[]`):
 - `id`\* (`string`): inner ID
 - `name`\* (`string`)
-- `flags` (`string[]`; 0-N picks from a thesaurus: original, unitary, complete, has tips, etc.)
+- `flags` (`string[]`; 0-N picks from thesaurus `ms-decoration-elem-flags`, like original, unitary, complete, has tips, etc.)
 - `place` (`string`): geographic place.
 - `artist` (`MsDecorationArtist`):
-  - `type`\* (`string`)
+  - `type`\* (`string`, thesaurus `ms-decoration-artist-types`)
   - `id`\* (`string`)
   - `name`\* (`string`)
   - `note` (`string`)
@@ -395,23 +420,29 @@ Loci critici.
 - `elements` (`MsDecorationElement[]`):
   - `key` (`string`): the key used for this element when it represents also a parent of other elements. Its scope is limited to the part.
   - `parentKey` (`string`): used to group sub-elements under an element, it is the `key` of the parent element. Its scope is limited to the part.
-  - `type`\* (`string`, `thesaurus`): the element's type.
+  - `type`\* (`string`, thesaurus `ms-decoration-elem-types`): the element's type.
   - `flags`\* (`string[]`; 0-N picks from a thesaurus: original, unitary, complete, has tips, etc.)
   - `ranges`\* (`MsLocationRange[]`)
-  - `typologies` (`string[]`; 0-N picks from a thesaurus); as typologies vary too much according to type, organize them into sub-sets, and let the UI automatically pick the one corresponding to the type.
+  - `typologies` (`string[]`; 0-N picks from thesaurus `ms-decoration-elem-typologies`); as typologies vary too much according to type, organize them into sub-sets, and let the UI automatically pick the one corresponding to the type.
   - `subject` (`string`): the decoration subject when applicable. For letters, it might be the letter itself.
-  - `colors` (`string[]`; 0-N picks from a thesaurus)
-  - `gilding` (`string`, thesaurus): gilding type.
-  - `technique` (`string`, thesaurus)
-  - `tool` (`string`, thesaurus)
-  - `position` (`string`, thesaurus): relative to the page.
+  - `colors` (`string[]`; 0-N picks from thesaurus `ms-decoration-elem-colors`)
+  - `gilding` (`string`, thesaurus `ms-decoration-elem-gildings`): gilding type.
+  - `technique` (`string`, thesaurus `ms-decoration-elem-techniques`)
+  - `tool` (`string`, thesaurus `ms-decoration-elem-tools`)
+  - `position` (`string`, thesaurus `ms-decoration-elem-positions`): relative to the page.
   - `lineHeight` (`number`): height measured in lines.
   - `textRelation` (`string`): relationship with text.
   - `description` (`string`, MD, 1000)
   - `imageId` (`string`): this is an ID representing the prefix for all the images representing the decoration; e.g. if it is `ae`, we would expect any number of image resources named after it plus a conventional numbering, like `ae00001`, `ae00002`, etc.
   - `note` (`string`).
 
-For reference, This is the old `MsDecoration` model:
+Thesauri: `ms-decoration-elem-types` (required), `ms-decoration-artist-types`, `ms-decoration-elem-flags`,
+`ms-decoration-elem-colors`, `ms-decoration-elem-gildings`,
+`ms-decoration-elem-techniques`, `ms-decoration-elem-positions`,
+`ms-decoration-elem-tools`, `ms-decoration-elem-typologies`,
+`ms-decoration-type-hidden`.
+
+For reference, this was the old `MsDecoration` model:
 
 - `type`\* (`string`, thesaurus)
 - `subject` (`string`)
@@ -446,19 +477,19 @@ For reference, This is the old `MsDecoration` model:
   - `corrections` (`string`)
   - `punctuation` (`string`)
   - `abbreviations` (`string`, MD, 1000)
-  - `idReason`\* (`string`, thesaurus)
+  - `idReason`\* (`string`, thesaurus `ms-hand-id-reasons`)
   - `ranges`\* (`MsLocationRange[]`):
     - `start` (`MsLocation`)
     - `end` (`MsLocation`)
   - `extentNote` (`string`)
   - `rubrications` (`MsRubrication[]`):
     - `ranges` (`MsLocationRange[]`)
-    - `type`\* (`string`, thesaurus)
+    - `type`\* (`string`, thesaurus `ms-rubrication-types`)
     - `description` (`string`)
     - `issues` (`string`)
   - `subscription` (`MsSubscription`):
     - `locations`\* (`MsLocation[]`)
-    - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
+    - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus `ms-languages`)
     - `text` (`string`)
   - `signs` (`MsHandSign`[]): description of any relevant graphical sign, whether it's a letter or not (the type is specified in `type`):
     - `id`\* (`string`): this must be a unique, arbitrarily chosen string for this sign
@@ -467,35 +498,42 @@ For reference, This is the old `MsDecoration` model:
     - `imageId` (`string`): this is an ID representing the prefix for all the images representing that sign; e.g. if it is `ae`, we would expect any number of image resources named after it plus a conventional numbering, like `ae00001`, `ae00002`, etc.
   - `imageIds` (`string[]`)
 
+Thesauri: `ms-hand-id-reasons`, `ms-hand-types`, `ms-hand-sign-types`,
+`ms-rubrication-types`, `ms-languages`.
+
 ### MsHistoryPart
 
 - `provenances`\* (`GeoAddress[]`, at least 1; in chronological order):
-  - `area`\* (`string`)
+  - `area`\* (`string`, thesaurus `ms-provenance-areas`)
   - `address` (`string`)
 - `history`\* (`string`, MD, 5000)
 - `persons` (`MsHistoryPerson[]`):
   - `id` (`string`)
-  - `role` (`string`, thesaurus)
+  - `role` (`string`, thesaurus `ms-history-person-roles`)
   - `name`\* (`PersonName`)
   - `date` (`HistoricalDate`)
   - `note` (`string`, 1000)
   - `externalIds` (`string[]`)
   - `sources` (`DocReference[]`)
 - `annotations` (`MsAnnotation[]`):
-  - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus)
-  - `type`\* (`string`, thesaurus)
+  - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus `ms-history-languages`)
+  - `type`\* (`string`, thesaurus `ms-annotation-types`)
   - `text`\* (`string`, 1000)
   - `start` (`MsLocation`)
   - `end` (`MsLocation`)
   - `personId` (`string`)
   - `sources` (`DocReference[]`)
 - `restorations` (`MsRestoration[]`):
-  - `type`\* (`string`, thesaurus)
+  - `type`\* (`string`, thesaurus `ms-restoration-types`)
   - `place` (`string`)
   - `date` (`HistoricalDate`)
   - `note` (`string`)
   - `personId` (`string`)
   - `sources` (`DocReference[]`)
+
+Thesauri: `ms-provenance-areas`, `ms-history-person-roles`,
+`ms-history-languages`, `ms-annotation-types`, `ms-restoration-types`,
+`person-name-types`, `person-name-tags`, `doc-reference-tags`.
 
 ### MsLayoutsPart
 
@@ -505,10 +543,13 @@ Formerly `MsDimensionsPart`.
   - `sample`\* (`MsLocation`): the sheet used as the sample for taking measurements and counts.
   - `dimensions` (`PhysicalDimension[]`): any number of measurements taken for any kind of measurable thing in the manuscript. TODO: use formula for entering.
   - `columnCount`\* (`int`)
-  - `rulingTechnique` (`string`, thesaurus)
+  - `rulingTechnique` (`string`, thesaurus `ms-ruling-techniques`)
   - `derolez` (`string`; not a thesaurus)
   - `priking` (`string`)
-  - `counts` (`DecoratedCount[]`): any number of counts. This allows entering any number of counts with different levels of precision. For instance, you might have `rowMinCount`, `rowMaxCount`, `lineCount`, `approxLineCount`, `lineMinCount`, `lineMaxCount`, `prickCount`, etc. It also allows descriptions for properties like columns, direction, blanks, ruling, execution, etc., eventually with a count (which might represent an average, or the most frequent value, etc.).
+  - `counts` (`DecoratedCount[]`): any number of counts (thesaurus `ms-counts`). This allows entering any number of counts with different levels of precision. For instance, you might have `rowMinCount`, `rowMaxCount`, `lineCount`, `approxLineCount`, `lineMinCount`, `lineMaxCount`, `prickCount`, etc. It also allows descriptions for properties like columns, direction, blanks, ruling, execution, etc., eventually with a count (which might represent an average, or the most frequent value, etc.).
+
+Thesauri: `physical-size-units` (required), `ms-dimensions`, `ms-counts`,
+`ms-ruling-techniques`.
 
 In the web editor, we can use a formula to quickly enter a set of dimensions. The formula has these parts:
 
@@ -530,44 +571,50 @@ For instance, the formula `250 × 170 = 30 [180] 40 × 15 [5/ 52 (20) 5/ 53] 20`
 
 ### MsMaterialDscPart
 
-- `material`\* (`string`, thesaurus)
-- `state`\* (`string`, thesaurus)
-- `format` (`string`, thesaurus)
+- `material`\* (`string`, thesaurus `ms-materials`)
+- `state`\* (`string`, thesaurus `ms-states`)
+- `format` (`string`, thesaurus `ms-formats`)
 - `stateNote` (`string`, 500)
 - `palimpsests` (`MsPalimpsest[]`):
   - `location`\* (`MsLocation`)
   - `date` (`HistoricalDate`)
   - `note` (`string`)
 
+Thesauri: `ms-materials`, `ms-formats`, `ms-states`.
+
 ### MsNumberingsPart
 
 - `numberings` (`MsNumbering[]`):
   - `isMain` (`boolean`)
   - `isPagination` (`boolean`): cartulazione vs. paginazione.
-  - `era`\* (`string`, thesaurus: one from "coeva", "antica", "moderna", "recente")
-  - `system`\* (`string`, thesaurus)
-  - `technique`\* (`string`, thesaurus)
+  - `era`\* (`string`, thesaurus `ms-numbering-eras`: one from "coeva", "antica", "moderna", "recente")
+  - `system`\* (`string`, thesaurus `ms-numbering-systems`)
+  - `technique`\* (`string`, thesaurus `ms-numbering-techniques`)
   - `century`\* (`number`)
-  - `position` (`string`, thesaurus)
+  - `position` (`string`, thesaurus `ms-numbering-positions`)
   - `issues` (`string`)
+
+Thesauri: `ms-numbering-eras`, `ms-numbering-systems`, `ms-numbering-techniques`, `ms-numbering-positions`.
 
 ### MsPlacePart
 
 Place of origin (provenance is in `MsHistoryPart`).
 
-- `area`\* (`string`, `thesaurus`)
+- `area`\* (`string`, thesaurus `ms-place-areas`)
 - `address` (`string`): this contains any number of components separated by comma, like in geocoding addresses, whereas the area is the top level component.
 - `city` (`string`)
-- `site` (`string`, `thesaurus`): e.g. "St. Paul monastry".
+- `site` (`string`): e.g. "St. Paul monastry".
 - `subscriber` (`string`): subscriber ID (human-readable, arbitrary string)
 - `subscriptionLoc` (`MsLocation`)
 - `sources` (`DocReference[]`): modern bibliography references.
+
+Thesauri: `ms-place-areas`, `doc-reference-tags`.
 
 ### MsPoemRangesPart
 
 This part defines the sequence of poems or other types of numbered compositions in a manuscript. This is used to compare the sequence of poems in different mss of Petrarch's RVF.
 
-- `tag` (`string`)
+- `tag` (`string` thesaurus `ms-poem-ranges-tags`)
 - `ranges`\* (`AlnumRange[]`):
   - `a`\* (`string`): the start "number".
   - `b` (`string`): the end number unless equal to the start "number".
@@ -580,6 +627,8 @@ In ranges, values for `a` and `b` are strings representing "alphanumerics", i.e.
 
 Ranges can be expressed only for alphanumerics with digits only, as they would be ambiguous in other cases: e.g. `12-15` means `12`, `13`, `14`, `15`; but `12-15a` could be interpreted in a number of different ways, as we have no predefined convention for the non-digits part. For instance, a valid range could be `1-13, 15-19, 20a, 21-36, 38, 50-67`.
 
+Thesauri: `ms-poem-ranges-tags`.
+
 ### MsQuiresPart
 
 - `quires` (`MsQuire[]`):
@@ -589,6 +638,8 @@ Ranges can be expressed only for alphanumerics with digits only, as they would b
   - `sheetCount`\* (`number`)
   - `sheetDelta` (`number`, negative or positive)
   - `note` (`string`)
+
+Thesauri: none.
 
 Note: allow users to enter collations using formulas like `1-3^4-1`. In this syntax we have any number of tokens separated by whitespace. Each token has the syntax `N-N^N±N {note}` where `-N` and `±N` are optional:
 
@@ -600,7 +651,7 @@ Note: allow users to enter collations using formulas like `1-3^4-1`. In this syn
 ### MsSignaturesPart
 
 - signatures (`MsSignature[]`):
-  - `tag` (string)
+  - `tag` (`string`, thesaurus `ms-signature-tags`)
   - `city`\* (`string`)
   - `library`\* (`string`)
   - `fund` (`string`)
@@ -608,22 +659,26 @@ Note: allow users to enter collations using formulas like `1-3^4-1`. In this syn
 
 At least 1 must be present. The signature with empty tag is the default (current) signature. Other signatures may be added for historical reasons, and should have a tag.
 
+Thesauri: `ms-signature-tags`.
+
 ### MsWatermarksPart
 
 - `watermarks` (`MsWatermark[]`):
-  - `subject`\* (`string`, thesaurus)
+  - `subject`\* (`string`, thesaurus `ms-watermark-subjects`)
   - `similarityRank` (`number`): a rank for the similarity of the watermark described here to the paradigmatic watermark model; the higher the number, the less similar is the watermark.
   - `description` (`string`): a text description for this watermark instance.
   - `place` (`string`)
   - `date` (`HistoricalDate`)
   - `externalIds` (`string[]`)
 
+Thesauri: `ms-watermark-subjects`.
+
 ### PersonEventsPart
 
 Any event relevant for the biography of a person, including his works.
 
 - `events` (`BioEvent[]`):
-  - `type`\* (`string`; thesaurus)
+  - `type`\* (`string`; thesaurus `bio-event-types`)
   - `date` (`HistoricalDate`)
   - `places` (`string[]`)
   - `description` (`string`, MD, 1000)
@@ -633,6 +688,8 @@ Any event relevant for the biography of a person, including his works.
   - `rank` (`number`)
   - `isWorkLost` (`boolean`)
   - `externalIds` (`string[]`)
+
+Thesauri: `bio-event-types`, `event-participant-tags`, `doc-reference-tags`.
 
 ### PersonPart
 
@@ -645,8 +702,4 @@ This contains the ID and biographic data of any person (the part role ID makes t
 - `chronotopes` (`Chronotope[]`): chronotopic indications, usually for birth and/or death.
 - `bio` (`string`, MD, 6000)
 
-### PersonHandPart
-
-- `personId` (`string`): a unique, arbitrary internal ID assigned to the person whose hand is described here.
-- `job` (`string`, thesaurus)
-- `others` (`DocReference[]`)
+Thesauri: `person-name-languages`, `doc-reference-tags`, `person-name-types`, `chronotope-tags`, `person-name-tags`.
