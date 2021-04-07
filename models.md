@@ -428,7 +428,7 @@ Thesauri: `ms-content-states`.
   - `key` (`string`): the key used for this element when it represents also a parent of other elements. Its scope is limited to the part.
   - `parentKey` (`string`): used to group sub-elements under an element, it is the `key` of the parent element. Its scope is limited to the part.
   - `type`\* (`string`, thesaurus `ms-decoration-elem-types`): the element's type.
-  - `flags`\* (`string[]`; 0-N picks from a thesaurus: original, unitary, complete, has tips, etc.)
+  - `flags`\* (`string[]`; 0-N picks from thesaurus `ms-decoration-elem-flags`: original, unitary, complete, has tips, etc.)
   - `ranges`\* (`MsLocationRange[]`)
   - `typologies` (`string[]`; 0-N picks from thesaurus `ms-decoration-elem-typologies`); as typologies vary too much according to type, organize them into sub-sets, and let the UI automatically pick the one corresponding to the type.
   - `subject` (`string`): the decoration subject when applicable. For letters, it might be the letter itself.
