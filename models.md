@@ -9,6 +9,7 @@
     - [DecoratedId](#decoratedid)
     - [DocReference](#docreference)
     - [MsLocation](#mslocation)
+    - [MsLocationRange](#mslocationrange)
     - [PersonName](#personname)
     - [PhysicalDimension](#physicaldimension)
     - [PhysicalSize](#physicalsize)
@@ -27,9 +28,9 @@
     - [SerialTextInfoPart](#serialtextinfopart)
     - [MsBindingPart](#msbindingpart)
     - [MsCatchwordsPart](#mscatchwordspart)
+    - [MsCompositionPart](#mscompositionpart)
     - [MsContentLociPart](#mscontentlocipart)
     - [MsContentsPart](#mscontentspart)
-    - [MsCompositionPart](#mscompositionpart)
     - [MsDecorationsPart](#msdecorationspart)
     - [MsHandsPart](#mshandspart)
     - [MsHistoryPart](#mshistorypart)
@@ -129,6 +130,12 @@ Note that here and in other parts the _place just corresponds to a conventional 
   - `r` (`bool`): true if Roman number.
   - `s` (`string`): the suffix, with 0-2 lowercase letters (e.g. `r`=recto, `v`=verso, `rv`=both).
   - `l` (`int`): line number.
+
+### MsLocationRange
+
+- `MsLocationRange`: a range of manuscript's locations:
+  - `start`: `MsLocation`
+  - `end`: `MsLocation`
 
 ### PersonName
 
@@ -353,6 +360,25 @@ Thesauri: `ms-binding-materials`, `ms-binding-support-materials`, `physical-size
 
 Thesauri: `ms-catchword-positions`.
 
+### MsCompositionPart
+
+- `sheetCount`\* (`number`)
+- `guardSheetCount` (`number`)
+- `guardSheets` (`MsGuardSheet[]`):
+  - `isBack` (`boolean`)
+  - `material` (`string`, thesaurus `ms-materials`)
+  - `location` (`MsLocation`)
+  - `date` (`HistoricalDate`)
+  - `note` (`string`)
+- `sections` (`MsSection[]`):
+  - `tag` (`string`): any arbitrarily chosen ID used to group sections together.
+  - `label`\* (`string`)
+  - `start`\* (`MsLocation`)
+  - `end`\* (`MsLocation`)
+  - `date` (`HistoricalDate`)
+
+Thesauri: `ms-materials`.
+
 ### MsContentLociPart
 
 Loci critici.
@@ -382,25 +408,6 @@ Thesauri: none.
     - `explicit` (string)
 
 Thesauri: `ms-content-states`.
-
-### MsCompositionPart
-
-- `sheetCount`\* (`number`)
-- `guardSheetCount` (`number`)
-- `guardSheets` (`MsGuardSheet[]`):
-  - `isBack` (`boolean`)
-  - `material` (`string`, thesaurus `ms-materials`)
-  - `location` (`MsLocation`)
-  - `date` (`HistoricalDate`)
-  - `note` (`string`)
-- `sections` (`MsSection[]`):
-  - `tag` (`string`): any arbitrarily chosen ID used to group sections together.
-  - `label`\* (`string`)
-  - `start`\* (`MsLocation`)
-  - `end`\* (`MsLocation`)
-  - `date` (`HistoricalDate`)
-
-Thesauri: `ms-materials`.
 
 ### MsDecorationsPart
 
