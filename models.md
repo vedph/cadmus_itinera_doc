@@ -399,13 +399,16 @@ Thesauri: none.
   - `work`\* (`string`)
   - `ranges` (`MsLocationRange[]`)
   - `state` (`string`, thesaurus `ms-content-states`)
+  - `title` (`string`)
   - `incipit` (string)
   - `explicit` (string)
   - `note` (`string`)
   - `units` (`MsContentUnit[]`):
-    - `label`\* (string)
-    - `incipit` (string)
-    - `explicit` (string)
+    - `label`\* (`string`)
+    - `start`\* (`MsLocation`)
+    - `end`\* (`MsLocation`)
+    - `incipit` (`string`)
+    - `explicit` (`string`)
 
 Thesauri: `ms-content-states`.
 
@@ -414,7 +417,8 @@ Thesauri: `ms-content-states`.
 - `decorations` (`MsDecoration[]`):
 - `id`\* (`string`): inner ID
 - `name`\* (`string`)
-- `flags` (`string[]`; 0-N picks from thesaurus `ms-decoration-elem-flags`, like original, unitary, complete, has tips, etc.)
+- `flags` (`string[]`; 0-N picks from thesaurus `ms-decoration-flags`, like original, unitary, complete, etc.)
+- `date` (`HistoricalDate`)
 - `place` (`string`): geographic place.
 - `artist` (`MsDecorationArtist`):
   - `type`\* (`string`, thesaurus `ms-decoration-artist-types`)
@@ -526,8 +530,7 @@ Thesauri: `ms-hand-id-reasons`, `ms-hand-types`, `ms-hand-sign-types`,
   - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus `ms-history-languages`)
   - `type`\* (`string`, thesaurus `ms-annotation-types`)
   - `text`\* (`string`, 1000)
-  - `start` (`MsLocation`)
-  - `end` (`MsLocation`)
+  - `ranges` (`MsLocationRange[]`)
   - `personId` (`string`)
   - `sources` (`DocReference[]`)
 - `restorations` (`MsRestoration[]`):
@@ -638,6 +641,7 @@ Thesauri: `ms-poem-ranges-tags`.
 
 ### MsQuiresPart
 
+- `types` (`string[]`, thesaurus: `ms-quire-types`): the prevalent types (binione, ternione, etc.)
 - `quires` (`MsQuire[]`):
   - `tag` (`string`, thesaurus)
   - `startNr`\* (`number`)
