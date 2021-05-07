@@ -682,18 +682,7 @@ last column:
 
 Examples:
 
-- `240 x 150 = 30 /`
-
-TODO
-
-For instance, the formula `250 × 170 = 30 [180] 40 × 15 [5/ 52 (20) 5/ 53] 20` represents these dimensions:
-
-1. `height`=250, `width`=170.
-2. `top-margin`=30.
-3. `write-area-height`=180.
-4. `bottom-margin`=40, `inner-margin`=15.
-5. `col-1-head-width`=5, `col-1-width`=52, `col-1-gap`=20; `col-2-head-width`=5, `col-2-width`=53.
-6. `ext-margin`=20 (external margin).
+- 2 columns: `240 × 150 = 30 / 5 [170 / 5] 40 × 15 [5 / 50 / 5* (20) 5* / 40] 5 / 15`
 
 ### MsMaterialDscPart
 
