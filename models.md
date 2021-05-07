@@ -558,21 +558,40 @@ Formerly `MsDimensionsPart`.
   - `priking` (`string`)
   - `counts` (`DecoratedCount[]`): any number of counts (thesaurus `ms-counts`). This allows entering any number of counts with different levels of precision. For instance, you might have `rowMinCount`, `rowMaxCount`, `lineCount`, `approxLineCount`, `lineMinCount`, `lineMaxCount`, `prickCount`, etc. It also allows descriptions for properties like columns, direction, blanks, ruling, execution, etc., eventually with a count (which might represent an average, or the most frequent value, etc.).
 
-Thesauri: `physical-size-units` (required), `ms-dimensions`, `ms-counts`,
-`ms-ruling-techniques`.
+Thesauri: `physical-size-units` (required), `ms-dimensions`, `ms-counts`, `ms-ruling-techniques`.
 
 In the web editor, we can use a formula to quickly enter a set of dimensions. The formula has these parts:
 
 - whitespaces are ignored, so all the regular expressions below assume that no whitespace exists (they are removed before parsing).
-- syntax: `N x N = <height> x <width>`
+- syntax: `N x N = <height> x <width>`: in the following scheme, - vs + mark portions which are alternative (where `-` stands for empty, and `+` for written).
+
+```txt
+240 × 150 = 30 / 5 [5 / 170 / 5] 5 / 40 × 15 / 5 [5 / 50 / 5* (20) 5* / 40 / 5] 5 / 15
+               ----++++    +++++----         ----++++       -  ||   -      ++++----
+hhh   www   hhhhhhhhhhhhhhhhhhhhhhhhhhh   wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+                                             1111111111111111  ||  22222222222222
+h     w     tm he  hw   ah fw    fe  bm   ml cle clw  cw   crX cg  clX  cw crw cre  mr
+
+height:
+
+[tm   ]
+[he/hw]
+[ah   ]
+[fe/fw]
+[bm   ]
+
+width:
+     col1                   col2
+[ml] [cle/clw][cw][cre/crw] [cg][cle/clw][cw][cre/crw]... [mr]
+```
 
 `<height>`: e.g. `30 / 5 [170 / 5] 40`:
 
-1. `N`<margin-top>
-2. `/N[`<head-empty> or `[N/`<head-written>
-3. `N`<area-height>
-4. `/N]`<foot-written> or `]N/`<foot-empty>
-5. `N`<margin-bottom>
+1. `N`(margin-top>
+2. `/N[`(head-e> or `[N/`(head-w>
+3. `N`(area-height>
+4. `/N]`(foot-w> or `]N/`(foot-e>
+5. `N`(margin-bottom>
 
 The sum of all the `N` in `height` must be equal to the 1st `N` in the formula's head.
 
@@ -592,22 +611,20 @@ N          /N[       or  [N/        N          /N]       or  ]N/        N
 - 6 = foot-empty
 - 7 = margin-bottom
 
-`<width>`: e.g. `15 / 5 [50 / 5* (20) 5* / 40 ] 5 / 15`:
+`(width>`: e.g. `15 / 5 [50 / 5* (20) 5* / 40 ] 5 / 15`:
 
-1. `N`<margin-left>
+1. `N`(margin-left)
 2. 1st column:
-  1. `/N[`<col-1-left-empty> or `[N/`<col-1-left-written>
-  2. `N`<col-1-width>
-  3. `/N`<col-1-right-written> or `/N*`<col-1-right-empty>
+   2.1. `/N[`(col-1-left-e) or `[N/`(col-1-left-w)
+   2.2. `N`(col-1-width)
+   2.3. `/N`(col-1-right-w) or `/N*`(col-1-right-e)
 3. mid columns*:
-  1. `(N)`<col-N-gap>
-  2. `N`<col-N-left-written> or `N*`<col-N-left-empty>
-  3. `/N`<col-N-width>
-  4. `/N`<col-N-right-written> or or `/N*`<col-N-right-empty>
+   3.1. `(N)`(col-N-gap)
+   3.2. `N`(col-N-left-w) or `N*`(col-N-left-empty) 3.3. `/N`(col-N-width) 3.4. `/N`(col-N-right-w) or or `/N\*`(col-N-right-e)
 4. last column:
-  1-3 as for mid
-  4. `/N]`<col-N-right-written> or `]/N`<col-N-right-empty>
-5. `/N`<right-margin>
+   4.1. to 4.3: as for mid
+   4.2. `/N]`(col-N-right-w) or `]/N`(col-N-right-e)
+5. `/N`(right-margin)
 
 The sum of all the `N` in `width` must be equal to the 2nd `N` in the formula's head.
 
@@ -639,29 +656,33 @@ last:
 1st column:
 
 - 1 = margin-left
-- 2 = col-1-left-empty
-- 3 = col-1-left-written
+- 2 = col-1-left-e
+- 3 = col-1-left-w
 - 4 = col-1-width
-- 5 = col-1-right-written
-- 6 = col-1-right-empty
+- 5 = col-1-right-w
+- 6 = col-1-right-e
 
 mid columns: for each match:
 
 - 1 = col-N-gap
-- 2 = col-N-left-written
-- 3 = col-N-left-empty
+- 2 = col-N-left-w
+- 3 = col-N-left-e
 - 4 = col-N-width
-- 5 = col-N-right-written
-- 6 = col-N-right-empty
+- 5 = col-N-right-w
+- 6 = col-N-right-e
 
 last column:
 
 - 1 = col-N-gap
-- 2 = col-N-left-written
-- 3 = col-N-left-empty
-- 4 = col-N-right-written
-- 5 = col-N-right-empty
+- 2 = col-N-left-w
+- 3 = col-N-left-e
+- 4 = col-N-right-w
+- 5 = col-N-right-e
 - 6 = right-margin
+
+Examples:
+
+- `240 x 150 = 30 /`
 
 TODO
 
