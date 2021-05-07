@@ -563,12 +563,103 @@ Thesauri: `physical-size-units` (required), `ms-dimensions`, `ms-counts`,
 
 In the web editor, we can use a formula to quickly enter a set of dimensions. The formula has these parts:
 
-1. `N x N`: `height` x `width`.
-2. `= N`: `top-margin`.
-3. `[N]`: `write-area-height`.
-4. `N x N`: `bottom-margin` x `inner-margin`.
-5. `[N/ N (N)?]+`: for each column: `col-N-head-width`, `col-N-width`, `col-N-gap` (if this isn't the last column).
-6. `N`: external margin.
+- whitespaces are ignored, so all the regular expressions below assume that no whitespace exists (they are removed before parsing).
+- syntax: `N x N = <height> x <width>`
+
+`<height>`: e.g. `30 / 5 [170 / 5] 40`:
+
+1. `N`<margin-top>
+2. `/N[`<head-empty> or `[N/`<head-written>
+3. `N`<area-height>
+4. `/N]`<foot-written> or `]N/`<foot-empty>
+5. `N`<margin-bottom>
+
+The sum of all the `N` in `height` must be equal to the 1st `N` in the formula's head.
+
+Regex:
+
+```txt
+(\d+)(?:(?:\/(\d+)\[)|(?:\[(\d+)\/))(\d+)(?:(?:\/(\d+)\])|(?:\](\d+)\/))(\d+)
+1            2             3        4            5             6        7
+N          /N[       or  [N/        N          /N]       or  ]N/        N
+```
+
+- 1 = margin-top
+- 2 = head-empty
+- 3 = head-written
+- 4 = area-height
+- 5 = foot-written
+- 6 = foot-empty
+- 7 = margin-bottom
+
+`<width>`: e.g. `15 / 5 [50 / 5* (20) 5* / 40 ] 5 / 15`:
+
+1. `N`<margin-left>
+2. 1st column:
+  1. `/N[`<col-1-left-empty> or `[N/`<col-1-left-written>
+  2. `N`<col-1-width>
+  3. `/N`<col-1-right-written> or `/N*`<col-1-right-empty>
+3. mid columns*:
+  1. `(N)`<col-N-gap>
+  2. `N`<col-N-left-written> or `N*`<col-N-left-empty>
+  3. `/N`<col-N-width>
+  4. `/N`<col-N-right-written> or or `/N*`<col-N-right-empty>
+4. last column:
+  1-3 as for mid
+  4. `/N]`<col-N-right-written> or `]/N`<col-N-right-empty>
+5. `/N`<right-margin>
+
+The sum of all the `N` in `width` must be equal to the 2nd `N` in the formula's head.
+
+Regex:
+
+```txt
+first:
+(\d+)(?:(?:\/(\d+)\[)|(?:\[(\d+)\/))(\d+)(?:(?:\/(\d+))|(?:\/(\d+)\*))
+1            2             3        4            5           6
+N          /N[       or  [N/        N          /N          /N*
+
+mid:
+(?:\((\d+)\)(?:(?:(\d+))|(?:(\d+)\*))\/(\d+)(?:(?:\/(\d+))|(?:\/(\d+)\*)))*
+     1            2         3          4            5           6
+   (N)            N     or  N*       /N           /N      or  /N*
+
+last:
+(?:\((\d+)\)(?:(?:(\d+))|(?:(\d+)\*))\/(\d+)(?:(?:\/(\d+)\])|(?:\]\/(\d+)))
+     1            2         3          4            5
+   (N)            N     or  N*       /N           /N]       or  ]/N
+```
+
+1st column:
+
+- 1 = margin-left
+- 2 = col-1-left-empty
+- 3 = col-1-left-written
+- 4 = col-1-width
+- 5 = col-1-right-written
+- 6 = col-1-right-empty
+
+mid columns: for each match:
+
+- 1 = col-N-gap
+- 2 = col-N-left-written
+- 3 = col-N-left-empty
+- 4 = col-N-width
+- 5 = col-N-right-written
+- 6 = col-N-right-empty
+
+last column:
+
+- 1 = col-N-gap
+- 2 = col-N-left-written
+- 3 = col-N-left-empty
+- 4 = col-N-right-written
+- 5 = col-N-right-empty
+
+finally `\/(\d+)$`
+
+- 1 = right-margin
+TODO
 
 For instance, the formula `250 × 170 = 30 [180] 40 × 15 [5/ 52 (20) 5/ 53] 20` represents these dimensions:
 
