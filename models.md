@@ -611,6 +611,12 @@ N          /N[       or  [N/        N          /N]       or  ]N/        N
 
 The sum of all the `N` in `width` must be equal to the 2nd `N` in the formula's head.
 
+Partitions:
+
+- 1st column
+- mid columns
+- last column
+
 Regex:
 
 ```txt
@@ -625,9 +631,9 @@ mid:
    (N)            N     or  N*       /N           /N      or  /N*
 
 last:
-(?:\((\d+)\)(?:(?:(\d+))|(?:(\d+)\*))\/(\d+)(?:(?:\/(\d+)\])|(?:\]\/(\d+)))
-     1            2         3          4            5
-   (N)            N     or  N*       /N           /N]       or  ]/N
+(?:\((\d+)\)(?:(?:(\d+))|(?:(\d+)\*))\/(\d+)(?:(?:\/(\d+)\])|(?:\]\/(\d+)))\/(\d+)
+     1            2         3          4            5                        6
+   (N)            N     or  N*       /N           /N]       or  ]/N        /N
 ```
 
 1st column:
@@ -655,10 +661,8 @@ last column:
 - 3 = col-N-left-empty
 - 4 = col-N-right-written
 - 5 = col-N-right-empty
+- 6 = right-margin
 
-finally `\/(\d+)$`
-
-- 1 = right-margin
 TODO
 
 For instance, the formula `250 × 170 = 30 [180] 40 × 15 [5/ 52 (20) 5/ 53] 20` represents these dimensions:
