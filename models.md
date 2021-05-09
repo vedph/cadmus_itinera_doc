@@ -648,9 +648,9 @@ mid:
    (N)            N     or  N*       /N           /N      or  /N*
 
 last:
-(?:\((\d+)\)(?:(?:(\d+))|(?:(\d+)\*))\/(\d+)(?:(?:\/(\d+)\])|(?:\]\/(\d+)))\/(\d+)
-     1            2         3          4            5                        6
-   (N)            N     or  N*       /N           /N]       or  ]/N        /N
+\((\d+)\)(?:(?:(\d+))|(?:(\d+)\*))\/(\d+)(?:(?:\/(\d+)\])|(?:\]\/(\d+)))\/(\d+)
+  1            2         3          4            5                        6
+(N)            N     or  N*       /N           /N]       or  ]/N        /N
 ```
 
 1st column:
@@ -676,9 +676,10 @@ last column:
 - 1 = col-N-gap
 - 2 = col-N-left-w
 - 3 = col-N-left-e
-- 4 = col-N-right-w
-- 5 = col-N-right-e
-- 6 = right-margin
+- 4 = col-N-width
+- 5 = col-N-right-w
+- 6 = col-N-right-e
+- 7 = margin-right
 
 Examples:
 
