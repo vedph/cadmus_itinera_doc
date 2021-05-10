@@ -570,120 +570,30 @@ In the web editor, we can use a formula to quickly enter a set of dimensions. Th
                ----++++    +++++----         ----++++       -  ||   -      ++++----
 hhh   www   hhhhhhhhhhhhhhhhhhhhhhhhhhh   wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
                                              1111111111111111  ||  22222222222222
-h     w     tm he  hw   ah fw    fe  bm   ml cle clw  cw   crX cg  clX  cw crw cre  mr
+h     w     mt he  hw   ah fw    fe  mb   ml cle clw  cw   crX cg  clX  cw crw cre  mr
 
 height:
 
-[tm   ]
+[mt   ]
 [he/hw]
 [ah   ]
 [fe/fw]
-[bm   ]
+[mb   ]
 
 width:
      col1                   col2
 [ml] [cle/clw][cw][cre/crw] [cg][cle/clw][cw][cre/crw]... [mr]
 ```
 
-`<height>`: e.g. `30 / 5 [170 / 5] 40`:
-
-1. `N`(margin-top>
-2. `/N[`(head-e> or `[N/`(head-w>
-3. `N`(area-height>
-4. `/N]`(foot-w> or `]N/`(foot-e>
-5. `N`(margin-bottom>
-
-The sum of all the `N` in `height` must be equal to the 1st `N` in the formula's head.
-
-Regex:
-
-```txt
-(\d+)(?:(?:\/(\d+)\[)|(?:\[(\d+)\/))(\d+)(?:(?:\/(\d+)\])|(?:\](\d+)\/))(\d+)
-1            2             3        4            5             6        7
-N          /N[       or  [N/        N          /N]       or  ]N/        N
-```
-
-- 1 = margin-top
-- 2 = head-empty
-- 3 = head-written
-- 4 = area-height
-- 5 = foot-written
-- 6 = foot-empty
-- 7 = margin-bottom
-
-`(width>`: e.g. `15 / 5 [50 / 5* (20) 5* / 40 ] 5 / 15`:
-
-1. `N`(margin-left)
-2. 1st column:
-   2.1. `/N[`(col-1-left-e) or `[N/`(col-1-left-w)
-   2.2. `N`(col-1-width)
-   2.3. `/N`(col-1-right-w) or `/N*`(col-1-right-e)
-3. mid columns*:
-   3.1. `(N)`(col-N-gap)
-   3.2. `N`(col-N-left-w) or `N*`(col-N-left-empty) 3.3. `/N`(col-N-width) 3.4. `/N`(col-N-right-w) or or `/N\*`(col-N-right-e)
-4. last column:
-   4.1. to 4.3: as for mid
-   4.2. `/N]`(col-N-right-w) or `]/N`(col-N-right-e)
-5. `/N`(right-margin)
-
-The sum of all the `N` in `width` must be equal to the 2nd `N` in the formula's head.
-
-Partitions:
-
-- 1st column
-- mid columns
-- last column
-
-Regex:
-
-```txt
-first:
-(\d+)(?:(?:\/(\d+)\[)|(?:\[(\d+)\/))(\d+)(?:(?:\/(\d+))|(?:\/(\d+)\*))
-1            2             3        4            5           6
-N          /N[       or  [N/        N          /N          /N*
-
-mid:
-(?:\((\d+)\)(?:(?:(\d+))|(?:(\d+)\*))\/(\d+)(?:(?:\/(\d+))|(?:\/(\d+)\*)))*
-     1            2         3          4            5           6
-   (N)            N     or  N*       /N           /N      or  /N*
-
-last:
-\((\d+)\)(?:(?:(\d+))|(?:(\d+)\*))\/(\d+)(?:(?:\/(\d+)\])|(?:\]\/(\d+)))\/(\d+)
-  1            2         3          4            5                        6
-(N)            N     or  N*       /N           /N]       or  ]/N        /N
-```
-
-1st column:
-
-- 1 = margin-left
-- 2 = col-1-left-e
-- 3 = col-1-left-w
-- 4 = col-1-width
-- 5 = col-1-right-w
-- 6 = col-1-right-e
-
-mid columns: for each match:
-
-- 1 = col-N-gap
-- 2 = col-N-left-w
-- 3 = col-N-left-e
-- 4 = col-N-width
-- 5 = col-N-right-w
-- 6 = col-N-right-e
-
-last column:
-
-- 1 = col-N-gap
-- 2 = col-N-left-w
-- 3 = col-N-left-e
-- 4 = col-N-width
-- 5 = col-N-right-w
-- 6 = col-N-right-e
-- 7 = margin-right
-
 Examples:
 
-- 2 columns: `240 × 150 = 30 / 5 [170 / 5] 40 × 15 [5 / 50 / 5* (20) 5* / 40] 5 / 15`
+- `240 × 150 = 30 / 5 [170 / 5] 40 × 15 [5 / 50 / 5* (20) 5* / 40] 5 / 15`
+- `200 x 160 = 30 [130] 40 x 15 [5 / 50 / 5 (10) 5 / 50 / 5] 15`
+- `200 x 160 = 30 [130] 40 x 15 [5 / 50 / 5* (10) 5* / 50 / 5] 15`
+- `200 x 150 = 30 [130] 40 x 30 [5 / 95] 20`
+- `200 x 150 = 30 [130] 40 x 30 [5 / 90 / 5] 20`
+- `210 x 150 = 30 [5 / 130 / 5] 40 x 20 [50 (10) 50] 20`
+- `250 x 150 = 30 / 5 [170 / 5] 40 x 30 [5 / 90] 5 / 20`
 
 ### MsMaterialDscPart
 
