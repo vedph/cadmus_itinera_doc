@@ -498,8 +498,8 @@ For reference, this was the old `MsDecoration` model:
     - `type`\* (`string`, thesaurus `ms-rubrication-types`)
     - `description` (`string`)
     - `issues` (`string`)
-  - `subscription` (`MsSubscription`):
-    - `locations`\* (`MsLocation[]`)
+  - `subscriptions` (`MsSubscription[]`):
+    - `ranges` (`MsLocationRange[]`)
     - `language`\* (`string` = code from [ISO 639-3](https://en.wikipedia.org/wiki/ISO_639-3), thesaurus `ms-languages`)
     - `text` (`string`)
   - `signs` (`MsHandSign`[]): description of any relevant graphical sign, whether it's a letter or not (the type is specified in `type`):
